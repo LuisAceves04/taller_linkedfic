@@ -9,4 +9,43 @@
     <string name="btn_iniciar_sesion">Iniciar Sesión</string>
     <string name="tv_registrate_aqui">¿No tienes cuenta? Registrate aqui</string>
     <string name="decripcionbtn_ocultar_contraseña">Mostrar u ocultar contraseña</string>
+
+    <!-- Role Selection -->
+    <string name="title_role_selection">¿Cómo deseas registrarte?</string>
+    <string name="subtitle_role_selection">Selecciona el tipo de cuenta adecuado para ti</string>
+    <string name="role_student_title">🎓 Alumno / Estudiante</string>
+    <string name="role_student_desc">Crea tu perfil profesional, busca vacantes e impulsa tu carrera profesional.</string>
+    <string name="role_company_title">🏢 Empresa / Reclutador (Próximamente)</string>
+    <string name="role_company_desc">Publica ofertas de empleo, busca talento universitario y conecta con estudiantes.</string>
+    <string name="back_to_login_prompt">¿Ya tienes cuenta? Inicia sesión aquí</string>
+
+    <!-- Register Student -->
+    <string name="title_register_student">Registro de Alumno</string>
+    <string name="subtitle_register_student">Completa tus datos para crear tu cuenta de estudiante</string>
+    <string name="hint_first_name">Nombre *</string>
+    <string name="hint_paternal_surname">Apellido Paterno *</string>
+    <string name="hint_maternal_surname">Apellido Materno *</string>
+    <string name="hint_email_req">Correo Electrónico *</string>
+    <string name="hint_password_req">Contraseña *</string>
+    <string name="hint_phone">Teléfono *</string>
+    <string name="hint_about_me">Sobre mí *</string>
+    <string name="label_select_major">Selecciona tu Carrera *</string>
+    <string name="btn_select_cv">📎 Adjuntar Currículum (PDF)</string>
+    <string name="no_cv_selected">Ningún archivo PDF seleccionado</string>
+    <string name="btn_create_student_account">Crear Cuenta de Estudiante</string>
+
+    <!-- Register Company -->
+    <string name="title_register_company">Registro de Empresa</string>
+    <string name="subtitle_register_company">Completa los datos de tu empresa para publicar vacantes</string>
+    <string name="hint_company_name">Nombre de la Empresa *</string>
+    <string name="hint_corp_email">Correo Electrónico Corporativo *</string>
+    <string name="hint_company_desc">Descripción o Presentación de la Empresa (Opcional)</string>
+    <string name="label_select_industry">Selecciona la Industria / Sector *</string>
+    <string name="btn_create_company_account">Crear Cuenta de Empresa</string>
+
+    <!-- Main Activity -->
+    <string name="welcome_title">¡Bienvenido!</string>
+    <string name="label_email">Email: </string>
+    <string name="label_role">Rol: </string>
+    <string name="btn_logout">Cerrar Sesión</string>
 </resources>

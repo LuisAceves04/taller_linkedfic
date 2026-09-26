@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollRegisterStudent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@android:color/white"
+    tools:context="com.example.linkedininterno.ui.RegisterStudentActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitleRegisterStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_register_student"
+            android:textColor="#0B0404"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSubtitleRegisterStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/subtitle_register_student"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleRegisterStudent" />
+
+        <!-- Nombre -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitleRegisterStudent">
+
+            <EditText
+                android:id="@+id/etStudentFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_first_name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Apellido Paterno -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentPaternalSurname"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentFirstName">
+
+            <EditText
+                android:id="@+id/etStudentPaternalSurname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_paternal_surname"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Apellido Materno -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentMaternalSurname"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentPaternalSurname">
+
+            <EditText
+                android:id="@+id/etStudentMaternalSurname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_maternal_surname"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Correo Electrónico -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentEmail"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentMaternalSurname">
+
+            <EditText
+                android:id="@+id/etStudentEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_email_req"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Contraseña -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentEmail">
+
+            <EditText
+                android:id="@+id/etStudentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_password_req"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Teléfono -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentPhone"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentPassword">
+
+            <EditText
+                android:id="@+id/etStudentPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/hint_phone"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Sobre Mí -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentAboutMe"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentPhone">
+
+            <EditText
+                android:id="@+id/etStudentAboutMe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="top|start"
+                android:hint="@string/hint_about_me"
+                android:inputType="textMultiLine"
+                android:padding="12dp"
+                android:textColor="#0A66C2"
+                android:textColorHint="#666666"
+                android:textSize="15sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Spinner Carrera -->
+        <TextView
+            android:id="@+id/tvLabelMajor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_select_major"
+            android:textColor="#191919"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentAboutMe" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStudentMajor"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="6dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:strokeColor="#3A3A3A"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintTop_toBottomOf="@id/tvLabelMajor">
+
+            <Spinner
+                android:id="@+id/spMajors"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Adjuntar Currículum (PDF) -->
+        <Button
+            android:id="@+id/btnSelectCv"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#455A64"
+            android:text="@string/btn_select_cv"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentMajor" />
+
+        <TextView
+            android:id="@+id/tvSelectedCvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/no_cv_selected"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSelectCv" />
+
+        <!-- Botón Registrarse -->
+        <Button
+            android:id="@+id/btnRegisterStudent"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/linkedfic_blue"
+            android:text="@string/btn_create_student_account"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tvSelectedCvName" />
+
+        <ProgressBar
+            android:id="@+id/progressBarStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/linkedfic_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnRegisterStudent" />
+
+        <TextView
+            android:id="@+id/tvBackToLoginFromStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
+            android:text="@string/back_to_login_prompt"
+            android:textColor="@color/linkedfic_blue"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBarStudent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

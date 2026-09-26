@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colores Básicos -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="linkedfic_blue">#0A66C2</color>"
+
+    <!-- PALETA DE COLORES -->
+
+    <!-- Azul Institucional (Principal) - HEX: #1860A8 - rgb(24, 96, 168) -->
+    <!-- Uso: Encabezado superior (header), botones principales y tarjeta de Facebook -->
+    <color name="azul_institucional">#1860A8</color>
+
+    <!-- Dorado / Oro UAS - HEX: #AF9121 - rgb(175, 145, 33) -->
+    <!-- Uso: Barra de navegación principal y contenedor de la sección Revista -->
+    <color name="dorado_oro_uas">#AF9121</color>
+
+    <!-- Azul Oscuro (Texto y Títulos) - HEX: #1B365D - rgb(27, 54, 93) -->
+    <!-- Uso: Títulos de noticias, encabezados de texto y detalles en logotipos -->
+    <color name="azul_oscuro">#1B365D</color>
+
+    <!-- Azul Muy Claro (Fondo de Contenedores) - HEX: #EBF2F9 - rgb(235, 242, 249) -->
+    <!-- Uso: Fondo para las tarjetas de la sección Convocatorias -->
+    <color name="azul_muy_claro">#EBF2F9</color>
+
+    <!-- Blanco (Fondo Base) - HEX: #FFFFFF - rgb(255, 255, 255) -->
+    <!-- Uso: Fondo principal del sitio web y bloques de marcas -->
+    <color name="blanco_base">#FFFFFF</color>
+
+    <!-- Azul LinkedIn (Principal) - HEX: #0A66C2 - rgb(10, 102, 194) -->
+    <!-- Uso: Logotipo, botones de acción principal, enlaces e iconos primarios -->
+    <color name="azul_linkedin">#0A66C2</color>
+    <color name="linkedfic_blue">#0A66C2</color>
+
+    <!-- Azul Oscuro (Hover y Selección) - HEX: #004182 - rgb(0, 65, 130) -->
+    <!-- Uso: Estados interactivos (hover, active) en botones y elementos seleccionados -->
+    <color name="azul_oscuro_hover">#004182</color>
+
+    <!-- Gris Oscuro (Texto Principal) - HEX: #191919 - rgb(25, 25, 25) -->
+    <!-- Uso: Títulos, nombres de usuarios, publicaciones y cuerpo de texto principal -->
+    <color name="gris_oscuro_texto">#191919</color>
+
+    <!-- Gris Claro (Fondo General) - HEX: #F4F2EE - rgb(244, 242, 238) -->
+    <!-- Uso: Fondo general de la plataforma y contraste para las publicaciones -->
+    <color name="gris_claro_fondo">#F4F2EE</color>
 </resources>
