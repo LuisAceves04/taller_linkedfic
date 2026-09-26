@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">LinkedIn Interno</string>
+    <string name="txt_linked_logo">Linked</string>
+    <string name="txt_fic_logo">fic</string>
+    <string name="txt_inicio_sesion">Iniciar Sesión</string>
+    <string name="txt_bienvenida_login">- Bienvenido a Linkedfic</string>
+    <string name="et_correo_login">Correo Electrónico</string>
+    <string name="et_contraseña_login">Contraseña</string>
+    <string name="btn_iniciar_sesion">Iniciar Sesión</string>
+    <string name="tv_registrate_aqui">¿No tienes cuenta? Registrate aqui</string>
+    <string name="decripcionbtn_ocultar_contraseña">Mostrar u ocultar contraseña</string>
 </resources>
