@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.example.linkedininterno.ui.LoginActivity">
+    android:background="@android:color/white">
 
     <!-- linkedfic -->
     <TextView
@@ -157,7 +156,7 @@
 
     <!-- boton inicio de sesion -->
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginStart="24dp"
