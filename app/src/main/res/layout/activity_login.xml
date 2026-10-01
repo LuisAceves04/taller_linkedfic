@@ -6,70 +6,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:padding="24dp">
 
-    <!-- linkedfic -->
-    <TextView
-        android:id="@+id/tvLinkedLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+    <!-- logo de Linkedfic -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
         android:layout_marginTop="32dp"
-        android:includeFontPadding="false"
-        android:text="@string/txt_linked_logo"
-        android:textColor="#0A66C2"
-        android:textSize="36sp"
-        android:textStyle="bold"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+        android:src="@mipmap/logofic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- cuadrado de linkedfic -->
-    <FrameLayout
-        android:id="@+id/flLinkedinContainer"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="4dp"
-        android:background="@drawable/logo_linkedfic"
-        app:layout_constraintBottom_toBottomOf="@id/tvLinkedLogo"
-        app:layout_constraintStart_toEndOf="@id/tvLinkedLogo"
-        app:layout_constraintTop_toTopOf="@id/tvLinkedLogo">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/txt_fic_logo"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </FrameLayout>
 
     <!-- texto inicio de sesion -->
     <TextView
         android:id="@+id/tvInicioSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="24dp"
         android:text="@string/txt_inicio_sesion"
         android:textColor="#0B0404"
         android:textSize="28sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLinkedLogo" />
+        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
     <!-- texto bienvenida -->
     <TextView
         android:id="@+id/tvBienvenida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
         android:layout_marginTop="6dp"
         android:text="@string/txt_bienvenida_login"
         android:textColor="#0A66C2"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInicioSesion" />
 
@@ -78,9 +55,7 @@
         android:id="@+id/hintCorreo"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="32dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,9 +85,7 @@
         android:id="@+id/cardContrasena"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginStart="34dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -159,10 +132,8 @@
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="52dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/linkedfic_blue"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/azul_institucional"
         android:text="@string/btn_iniciar_sesion"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -176,11 +147,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:indeterminateTint="@color/azul_institucional"
         android:visibility="gone"
-        android:indeterminateTint="@color/linkedfic_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
     <!-- texto registrate aqui -->
     <TextView
@@ -192,7 +163,7 @@
         android:focusable="true"
         android:minHeight="48dp"
         android:text="@string/tv_registrate_aqui"
-        android:textColor="@color/linkedfic_blue"
+        android:textColor="@color/azul_institucional"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

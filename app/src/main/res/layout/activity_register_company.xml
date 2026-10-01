@@ -9,6 +9,8 @@
     android:fillViewport="true"
     android:background="@android:color/white">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -182,7 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="28dp"
-            android:backgroundTint="@color/linkedfic_blue"
+            android:backgroundTint="@color/azul_institucional"
             android:text="@string/btn_create_company_account"
             android:textColor="#FFFFFF"
             android:textSize="17sp"
@@ -195,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:visibility="gone"
-            android:indeterminateTint="@color/linkedfic_blue"
+            android:indeterminateTint="@color/azul_institucional"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnRegisterCompany" />
@@ -209,7 +211,7 @@
             android:focusable="true"
             android:minHeight="48dp"
             android:text="@string/back_to_login_prompt"
-            android:textColor="@color/linkedfic_blue"
+            android:textColor="@color/azul_institucional"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

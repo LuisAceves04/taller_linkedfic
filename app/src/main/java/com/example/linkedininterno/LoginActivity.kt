@@ -1,8 +1,10 @@
 package com.example.linkedininterno
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.linkedininterno.network.RetrofitClient
@@ -20,6 +22,13 @@ class LoginActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.etcorreo)
         val etPassword = findViewById<EditText>(R.id.etcontrasena)
         val btnLogin = findViewById<Button>(R.id.buttonLogin)
+        val tvRegistrate = findViewById<TextView>(R.id.tvRegistrateAqui)
+
+        // Acción para ir a la pantalla de registro de estudiante
+        tvRegistrate.setOnClickListener {
+            val intent = Intent(this, RegisterStudentActivity::class.java)
+            startActivity(intent)
+        }
 
         // Acción cuando presionen el botón
         btnLogin.setOnClickListener {
