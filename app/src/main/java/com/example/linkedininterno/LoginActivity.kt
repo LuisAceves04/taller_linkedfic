@@ -24,6 +24,11 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.buttonLogin)
         val tvRegistrate = findViewById<TextView>(R.id.tvRegistrateAqui)
 
+        tvRegistrate.setOnClickListener {
+            val intent = Intent(this, RegisterStudentActivity::class.java) // O la actividad de selección de roles si la usas
+            startActivity(intent)
+        }
+
         // Acción cuando presionen el botón
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()

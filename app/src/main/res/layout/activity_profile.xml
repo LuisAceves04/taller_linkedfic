@@ -29,7 +29,7 @@
             android:layout_marginStart="20dp"
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside"
-            android:src="@mipmap/logofic"
+            android:src="@drawable/logofic"
             app:layout_constraintBottom_toBottomOf="@id/headerBar"
             app:layout_constraintStart_toStartOf="@id/headerBar"
             app:layout_constraintTop_toTopOf="@id/headerBar" />
