@@ -2,12 +2,14 @@ package com.example.linkedininterno.network
 
 import com.example.linkedininterno.Carrera
 import com.example.linkedininterno.RespuestaCarreras
+import com.example.linkedininterno.RespuestaPerfil
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -36,4 +38,10 @@ interface ApiService {
 
     @GET("carreras")
     fun obtenerCarreras(): Call<RespuestaCarreras>
+
+    @GET("perfil")
+    fun obtenerPerfil(
+        @Header("Authorization") token: String
+    ): Call<RespuestaPerfil>
+
 }

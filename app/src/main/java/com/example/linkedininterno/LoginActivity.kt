@@ -50,8 +50,25 @@ class LoginActivity : AppCompatActivity() {
 
             call.enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@LoginActivity, "Bienvenido", Toast.LENGTH_SHORT).show()
+                    if (response.isSuccessful && response.body() != null) {
+                        val jsonResponse = response.body()!!
+
+                        // Extraer el token de acceso que devuelve Laravel
+                        val accessToken = jsonResponse.get("access_token")?.asString
+
+                        if (accessToken != null) {
+                            // Guardar el token de forma segura en el teléfono
+                            val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
+                            sharedPreferences.edit().putString("TOKEN", accessToken).apply()
+                        }
+
+                        Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+
+                        // Abrir la pantalla del Perfil y cerrar el Login
+                        val intent = Intent(this@LoginActivity, ProfileActivity::class.java)
+                        startActivity(intent)
+                        finish() // Cierra el login para que no se pueda regresar con el botón atrás
+
                     } else {
                         Toast.makeText(this@LoginActivity, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     }
