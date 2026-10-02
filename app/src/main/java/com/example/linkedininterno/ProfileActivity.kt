@@ -26,6 +26,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvAvatarInitial: TextView
     private lateinit var btnLogoutProfile: Button
     private lateinit var btnVerCurriculum: Button
+    private lateinit var btnEditProfile: Button
+
 
     private var urlCurriculum: String? = null
 
@@ -45,6 +47,15 @@ class ProfileActivity : AppCompatActivity() {
         tvAvatarInitial = findViewById(R.id.tvAvatarInitial)
         btnLogoutProfile = findViewById(R.id.btnLogoutProfile)
         btnVerCurriculum = findViewById(R.id.btnDownloadCv)
+        btnEditProfile = findViewById(R.id.btnEditProfile)
+
+        // Botón para editar el perfil
+        val btnEditProfile = findViewById<Button>(R.id.btnEditProfile)
+
+        btnEditProfile.setOnClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         // Configura el evento de clic para abrir el enlace del PDF
         btnVerCurriculum.setOnClickListener {
