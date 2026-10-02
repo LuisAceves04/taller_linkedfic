@@ -31,6 +31,9 @@
     <string name="hint_about_me">Sobre mí *</string>
     <string name="label_select_major">Selecciona tu Carrera *</string>
     <string name="btn_select_cv">📎 Adjuntar Currículum (PDF)</string>
+    <string name="btn_select_avatar">Seleccionar foto</string>
+    <string name="hint_avatar">Foto de perfil</string>
+    <string name="hint_semester">Semestre (ej. 5)</string>
     <string name="no_cv_selected">Ningún archivo PDF seleccionado</string>
     <string name="btn_create_student_account">Crear Cuenta de Estudiante</string>
 

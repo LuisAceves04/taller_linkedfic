@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.LinkedInInterno" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Palette theme colors -->
-        <item name="colorPrimary">@color/azul_linkedin</item>
+        <item name="colorPrimary">@color/azul_institucional</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/azul_muy_claro</item>
+        <item name="colorPrimaryContainer">@color/azul_institucional</item>
         <item name="colorOnPrimaryContainer">@color/azul_oscuro</item>
         <item name="colorSecondary">@color/dorado_oro_uas</item>
-        <item name="android:colorBackground">@color/gris_claro_fondo</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="Theme.LinkedInInterno" parent="Base.Theme.LinkedInInterno" />
