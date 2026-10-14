@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="14dp"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="3dp"
+    android:backgroundTint="@color/white"
+    app:strokeColor="#F0F0F0"
+    app:strokeWidth="1.5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- CABECERA: Avatar, Autor/Fecha y Opciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- Avatar circular con Anillo de la marca (azul #0A66C2 o el de tu tema) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#0A66C2"
+                app:strokeWidth="2.5dp">
+
+                <ImageView
+                    android:id="@+id/ivAvatarPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:padding="2dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:contentDescription="Avatar del usuario" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAutorPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del Usuario"
+                    android:textStyle="bold"
+                    android:textColor="#0F1419"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <!-- Contenedor del Chip para la fecha o status -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#F2F4F7"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="3dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#F2F4F7"
+                    android:backgroundTintMode="src_over">
+
+                    <!-- Nota: Puedes usar un drawable de fondo si quieres que sea ultra circular,
+                         por ahora usamos el espaciado para simularlo o ponle una bonita apariencia. -->
+                    <TextView
+                        android:id="@+id/tvTiempoPost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hace un momento"
+                        android:textColor="#536471"
+                        android:textStyle="bold"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Botón Opciones Circular y moderno -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                android:backgroundTint="#F2F4F7"
+                app:strokeColor="@android:color/transparent">
+
+                <ImageView
+                    android:id="@+id/btnMenuOpciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_menu_more"
+                    android:contentDescription="Opciones"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="#536471"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E1E8ED"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginHorizontal="16dp"/>
+
+        <!-- CUERPO DE LA PUBLICACIÓN -->
+        <TextView
+            android:id="@+id/tvTituloPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="18dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#0F1419"
+            android:letterSpacing="-0.01"/>
+
+        <TextView
+            android:id="@+id/tvContenidoPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="18dp"
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- Imagen Multimedia Modernizada (Con Inset de 12dp de borde) -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMultimediaPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="260dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="18dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:contentDescription="Imagen de la publicación"
+            app:shapeAppearanceOverlay="@style/RoundedImageStyle"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,17 +1,22 @@
 package com.example.linkedininterno
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.example.linkedininterno.network.RetrofitClient
+import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -23,13 +28,14 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvProfileEmailValue: TextView
     private lateinit var tvProfilePhoneValue: TextView
     private lateinit var tvProfileAboutValue: TextView
+    private lateinit var tvProfileSkillsValue: TextView
     private lateinit var tvAvatarInitial: TextView
     private lateinit var btnLogoutProfile: Button
     private lateinit var btnVerCurriculum: Button
     private lateinit var btnEditProfile: Button
+    private lateinit var btnAddSkill: Button
 
-
-    private var urlCurriculum: String? = null
+    private var tieneCurriculum: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,36 +50,76 @@ class ProfileActivity : AppCompatActivity() {
         tvProfileEmailValue = findViewById(R.id.tvProfileEmailValue)
         tvProfilePhoneValue = findViewById(R.id.tvProfilePhoneValue)
         tvProfileAboutValue = findViewById(R.id.tvProfileAboutValue)
+        tvProfileSkillsValue = findViewById(R.id.tvProfileSkillsValue)
         tvAvatarInitial = findViewById(R.id.tvAvatarInitial)
         btnLogoutProfile = findViewById(R.id.btnLogoutProfile)
         btnVerCurriculum = findViewById(R.id.btnDownloadCv)
         btnEditProfile = findViewById(R.id.btnEditProfile)
+        btnAddSkill = findViewById(R.id.btnAddSkill)
 
         // Botón para editar el perfil
-        val btnEditProfile = findViewById<Button>(R.id.btnEditProfile)
-
         btnEditProfile.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
         }
 
-        // Configura el evento de clic para abrir el enlace del PDF
-        btnVerCurriculum.setOnClickListener {
-            try {
-                // Imprimir en el Logcat qué URL está intentando abrir
-                Log.d("CURRICULUM_DEBUG", "URL actual del currículum: $urlCurriculum")
+        // Botón para abrir el diálogo y agregar habilidades
+        btnAddSkill.setOnClickListener {
+            mostrarDialogoAgregarHabilidad()
+        }
 
-                if (!urlCurriculum.isNullOrEmpty()) {
-                    val uri = Uri.parse(urlCurriculum)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Este alumno no tiene un currículum registrado", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this, "No se pudo abrir el archivo: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e("CURRICULUM_DEBUG", "Excepción al abrir intent: ${e.message}")
+        // Botón para descargar y ver el PDF usando Retrofit
+        btnVerCurriculum.setOnClickListener {
+            if (!tieneCurriculum) {
+                Toast.makeText(this, "Este alumno no tiene un currículum registrado", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
+            val token = sharedPreferences.getString("TOKEN", null)
+
+            if (token.isNullOrEmpty()) {
+                Toast.makeText(this, "Sesión no válida", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Abriendo currículum...", Toast.LENGTH_SHORT).show()
+
+            RetrofitClient.instance.descargarCurriculum("Bearer $token").enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        try {
+                            val file = File(cacheDir, "curriculum.pdf")
+                            val inputStream = response.body()!!.byteStream()
+                            val outputStream = FileOutputStream(file)
+                            inputStream.copyTo(outputStream)
+                            outputStream.close()
+                            inputStream.close()
+
+                            val uri = FileProvider.getUriForFile(
+                                this@ProfileActivity,
+                                "${packageName}.fileprovider",
+                                file
+                            )
+
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                setDataAndType(uri, "application/pdf")
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                            startActivity(intent)
+
+                        } catch (e: Exception) {
+                            Toast.makeText(this@ProfileActivity, "No se pudo abrir el archivo: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
+                    } else {
+                        Toast.makeText(this@ProfileActivity, "No se pudo descargar el currículum", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(this@ProfileActivity, "Error de red: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
         }
 
         // Botón de Cerrar Sesión
@@ -100,46 +146,128 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
-        // Petición GET con el token hacia Laravel
         RetrofitClient.instance.obtenerPerfil("Bearer $token").enqueue(object : Callback<RespuestaPerfil> {
             override fun onResponse(call: Call<RespuestaPerfil>, response: Response<RespuestaPerfil>) {
                 if (response.isSuccessful && response.body() != null) {
                     val respuesta = response.body()!!
                     val usuario = respuesta.usuario
+                    if (usuario == null) {
+                        Toast.makeText(this@ProfileActivity, "No se encontró la información del usuario", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
                     val alumno = usuario.alumno
 
                     if (alumno != null) {
-                        val nombreCompleto = "${alumno.nombre} ${alumno.apellidoPaterno} ${alumno.apellidoMaterno}"
+                        val nombreCompleto = "${alumno.nombre ?: ""} ${alumno.apellidoPaterno ?: ""} ${alumno.apellidoMaterno ?: ""}".trim()
 
-                        // Asignar datos académicos y personales a la UI
                         tvProfileName.text = nombreCompleto
-                        tvHeaderUsername.text = alumno.nombre
+                        tvHeaderUsername.text = alumno.nombre ?: "Usuario"
                         tvProfileMajorValue.text = alumno.carrera?.carrera ?: "Sin carrera"
-                        tvProfileSemesterValue.text = alumno.semestre.toString()
+                        tvProfileSemesterValue.text = (alumno.semestre ?: 0).toString()
 
-                        urlCurriculum = "http://10.0.2.2:8000/storage/" + alumno.curriculum
+                        tieneCurriculum = !alumno.curriculum.isNullOrEmpty()
 
                         // Poner la primera letra del nombre en el avatar circular
-                        if (alumno.nombre.isNotEmpty()) {
+                        if (!alumno.nombre.isNullOrEmpty()) {
                             tvAvatarInitial.text = alumno.nombre.first().toString().uppercase()
                         }
                     } else {
                         tvProfileName.text = "Usuario sin perfil de alumno"
                         tvHeaderUsername.text = "Usuario"
-                        urlCurriculum = null
+                        tieneCurriculum = false
                     }
 
                     tvProfileRoleBadge.text = "Alumno"
-                    tvProfileEmailValue.text = usuario.email
+                    tvProfileEmailValue.text = usuario.email ?: "Sin correo"
                     tvProfilePhoneValue.text = usuario.telefono ?: "No registrado"
                     tvProfileAboutValue.text = usuario.sobreMi ?: "Sin descripción"
 
+                    // Habilidades leídas desde el objeto alumno
+                    val habilidades = alumno?.habilidades
+                    if (!habilidades.isNullOrEmpty()) {
+                        tvProfileSkillsValue.text = habilidades.joinToString(", ") { it.nombre ?: "" }
+                    } else {
+                        tvProfileSkillsValue.text = "Sin habilidades registradas"
+                    }
+
                 } else {
-                    Toast.makeText(this@ProfileActivity, "No se pudo cargar la información del perfil", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProfileActivity, "Error ${response.code()} al cargar perfil", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<RespuestaPerfil>, t: Throwable) {
+                Toast.makeText(this@ProfileActivity, "Error de red/parseo: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun mostrarDialogoAgregarHabilidad() {
+        val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
+        val token = sharedPreferences.getString("TOKEN", null) ?: return
+
+        // obtener el catálogo general de habilidades
+        RetrofitClient.instance.obtenerHabilidades().enqueue(object : Callback<RespuestaHabilidades> {
+            override fun onResponse(call: Call<RespuestaHabilidades>, response: Response<RespuestaHabilidades>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val respuesta = response.body()!!
+                    val listaHabilidades = respuesta.data ?: respuesta.habilidades ?: emptyList()
+
+                    if (listaHabilidades.isEmpty()) {
+                        Toast.makeText(this@ProfileActivity, "No hay habilidades disponibles en el catálogo", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    val nombresHabilidades = listaHabilidades.map { it.nombre ?: "Sin nombre" }.toTypedArray()
+
+                    // seleccionar la habilidad
+                    AlertDialog.Builder(this@ProfileActivity)
+                        .setTitle("Selecciona una habilidad")
+                        .setItems(nombresHabilidades) { _, which ->
+                            val habilidadSeleccionada = listaHabilidades[which]
+                            // Al elegir la habilidad, abrimos el segundo diálogo para el nivel
+                            mostrarDialogoSeleccionarNivel(token, idHabilidad = habilidadSeleccionada.id ?: 0)
+                        }
+                        .setNegativeButton("Cancelar", null)
+                        .show()
+
+                } else {
+                    Toast.makeText(this@ProfileActivity, "Error al obtener el catálogo de habilidades", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<RespuestaHabilidades>, t: Throwable) {
+                Toast.makeText(this@ProfileActivity, "Error de red: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun mostrarDialogoSeleccionarNivel(token: String, idHabilidad: Int) {
+        val niveles = arrayOf("Bajo", "Medio", "Alto")
+        val idsNiveles = arrayOf(1, 2, 3)
+
+        AlertDialog.Builder(this)
+            .setTitle("Selecciona tu nivel")
+            .setItems(niveles) { _, which ->
+                val idNivelSeleccionado = idsNiveles[which]
+                guardarHabilidadAlumno(token, idHabilidad, idNivelSeleccionado)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun guardarHabilidadAlumno(token: String, idHabilidad: Int, idNivel: Int) {
+        RetrofitClient.instance.agregarHabilidad("Bearer $token", idHabilidad, idNivel).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@ProfileActivity, "Habilidad agregada con éxito", Toast.LENGTH_SHORT).show()
+                    cargarDatosPerfil()
+                } else {
+                    Toast.makeText(this@ProfileActivity, "Error: ${response.code()}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Toast.makeText(this@ProfileActivity, "Error de red: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })

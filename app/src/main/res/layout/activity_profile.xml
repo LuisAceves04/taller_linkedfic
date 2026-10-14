@@ -93,7 +93,7 @@
                 <Button
                     android:id="@+id/btnEditProfile"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:backgroundTint="#1860A8"
                     android:text="✏️ Editar Perfil"
                     android:textColor="@android:color/white"
@@ -331,7 +331,56 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvProfileAboutValue" />
 
-                <!-- SECTION 3: DOCUMENTACIÓN -->
+                <!-- SECTION 3: HABILIDADES -->
+                <TextView
+                    android:id="@+id/tvSectionSkills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="🛠️ HABILIDADES"
+                    android:textColor="#1860A8"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+                <Button
+                    android:id="@+id/btnAddSkill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:backgroundTint="#1860A8"
+                    android:text="+ Agregar"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSectionSkills"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSectionSkills" />
+
+                <TextView
+                    android:id="@+id/tvProfileSkillsValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="#0B0404"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSectionSkills"
+                    tools:text="Java, Kotlin, Laravel, Android" />
+
+                <!-- Divider 3 -->
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfileSkillsValue" />
+
+                <!-- SECTION 4: DOCUMENTACIÓN -->
                 <TextView
                     android:id="@+id/tvSectionDocs"
                     android:layout_width="wrap_content"
@@ -342,7 +391,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+                    app:layout_constraintTop_toBottomOf="@id/divider3" />
 
                 <!-- Currículum Vitae -->
                 <TextView
@@ -359,7 +408,7 @@
                 <Button
                     android:id="@+id/btnDownloadCv"
                     android:layout_width="wrap_content"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:backgroundTint="#FFFFFF"
                     android:text="📄 Ver / Descargar CV"
                     android:textColor="#1860A8"

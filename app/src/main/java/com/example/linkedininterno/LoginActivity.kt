@@ -2,6 +2,7 @@ package com.example.linkedininterno
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         val tvRegistrate = findViewById<TextView>(R.id.tvRegistrateAqui)
 
         tvRegistrate.setOnClickListener {
-            val intent = Intent(this, RegisterStudentActivity::class.java) // O la actividad de selección de roles si la usas
+            val intent = Intent(this, RegisterStudentActivity::class.java)
             startActivity(intent)
         }
 
@@ -52,23 +53,16 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     if (response.isSuccessful && response.body() != null) {
                         val jsonResponse = response.body()!!
-
-                        // Extraer el token de acceso que devuelve Laravel
                         val accessToken = jsonResponse.get("access_token")?.asString
 
                         if (accessToken != null) {
-                            // Guardar el token de forma segura en el teléfono
                             val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
                             sharedPreferences.edit().putString("TOKEN", accessToken).apply()
+
+                            obtenerIdDesdePerfil(accessToken)
+                        } else {
+                            Toast.makeText(this@LoginActivity, "No se recibió el token", Toast.LENGTH_SHORT).show()
                         }
-
-                        Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
-
-                        // Abrir la pantalla del Perfil y cerrar el Login
-                        val intent = Intent(this@LoginActivity, ProfileActivity::class.java)
-                        startActivity(intent)
-                        finish() // Cierra el login para que no se pueda regresar con el botón atrás
-
                     } else {
                         Toast.makeText(this@LoginActivity, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     }
@@ -79,5 +73,47 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun obtenerIdDesdePerfil(token: String) {
+        RetrofitClient.instance.obtenerPerfilJson("Bearer $token").enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val json = response.body()!!
+
+                    var idUsuario = -1
+                    try {
+                        if (json.has("usuario")) {
+                            idUsuario = json.getAsJsonObject("usuario").get("idUsuario").asInt
+                        } else if (json.has("user")) {
+                            idUsuario = json.getAsJsonObject("user").get("id").asInt
+                        } else if (json.has("data")) {
+                            idUsuario = json.getAsJsonObject("data").get("id").asInt
+                        } else if (json.has("id")) {
+                            idUsuario = json.get("id").asInt
+                        }
+                    } catch (e: Exception) {
+                        Log.e("LOGIN_DEBUG", "Error extrayendo ID: ${e.message}")
+                    }
+
+                    if (idUsuario != -1) {
+                        val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
+                        sharedPreferences.edit().putInt("ID_USUARIO", idUsuario).commit()
+
+                        Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Error: JSON no coincide", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Error de red al iniciar", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
