@@ -293,31 +293,36 @@
                 android:paddingEnd="8dp" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Semestre (Alumnos) -->
+        <!-- Semestre (Reemplazado por Spinner Dinámico) -->
+        <TextView
+            android:id="@+id/tvLabelSemester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Semestre / Año"
+            android:textColor="#191919"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardStudentMajor" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardStudentSemester"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             app:cardBackgroundColor="#FFFFFF"
             app:cardCornerRadius="10dp"
             app:strokeColor="#3A3A3A"
             app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/cardStudentMajor">
+            app:layout_constraintTop_toBottomOf="@id/tvLabelSemester">
 
-            <EditText
-                android:id="@+id/etStudentSemester"
+            <Spinner
+                android:id="@+id/spinnerRegistroSemestre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/hint_semester"
-                android:inputType="number"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#0A66C2"
-                android:textColorHint="#666666"
-                android:textSize="16sp" />
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Adjuntar Currículum (PDF) -->

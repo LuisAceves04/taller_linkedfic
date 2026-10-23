@@ -124,6 +124,14 @@
                         android:textSize="32sp"
                         android:textStyle="bold"
                         tools:text="U" />
+
+                    <!-- Agregamos este ImageView para mostrar la foto de perfil con Glide -->
+                    <ImageView
+                        android:id="@+id/ivAvatarProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Foto de perfil" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Full Name -->

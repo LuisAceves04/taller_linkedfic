@@ -35,10 +35,10 @@ class RegisterStudentActivity : AppCompatActivity() {
 
     // Vistas y variables para Carreras y semestres dinámicos
     private lateinit var spinnerCarrera: Spinner
-    private lateinit var etSemester: EditText
+    private lateinit var spinnerSemestre: Spinner // <- NUEVO SPINNER
+
     private var listaCarreras: List<Carrera> = listOf()
     private var idCarreraSeleccionada: Int = 1
-    private var maxSemestresPermitidos: Int = 10 // Valor por defecto
 
     // Lanzador para seleccionar el Avatar (Imágenes)
     private val pickAvatarLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -68,8 +68,9 @@ class RegisterStudentActivity : AppCompatActivity() {
         val etPassword = findViewById<EditText>(R.id.etStudentPassword)
         val etPhone = findViewById<EditText>(R.id.etStudentPhone)
         val etAboutMe = findViewById<EditText>(R.id.etStudentAboutMe)
-        etSemester = findViewById(R.id.etStudentSemester)
+
         spinnerCarrera = findViewById(R.id.spMajors)
+        spinnerSemestre = findViewById(R.id.spinnerRegistroSemestre) // <- NUEVO SPINNER
 
         val btnSelectAvatar = findViewById<Button>(R.id.btnSelectAvatar)
         val btnSelectCurriculum = findViewById<Button>(R.id.btnSelectCv)
@@ -84,20 +85,16 @@ class RegisterStudentActivity : AppCompatActivity() {
             finish()
         }
 
-        // Cargar las carreras de la base de datos al iniciar la pantalla
         cargarCarreras()
 
-        // abrir los selectores de archivos
         btnSelectAvatar.setOnClickListener {
             pickAvatarLauncher.launch("image/*")
         }
 
         btnSelectCurriculum.setOnClickListener {
-            // Permitimos archivos PDF
             pickCurriculumLauncher.launch("application/pdf")
         }
 
-        // Botón principal de registro
         btnRegister.setOnClickListener {
             val firstName = etFirstName.text.toString().trim()
             val paternalSurname = etPaternalSurname.text.toString().trim()
@@ -106,28 +103,13 @@ class RegisterStudentActivity : AppCompatActivity() {
             val password = etPassword.text.toString().trim()
             val phone = etPhone.text.toString().trim()
             val aboutMe = etAboutMe.text.toString().trim()
-            val semesterStr = etSemester.text.toString().trim()
+
+            val semesterStr = spinnerSemestre.selectedItem?.toString() ?: "1"
 
             // Validaciones básicas de campos obligatorios
             if (firstName.isEmpty() || paternalSurname.isEmpty() || maternalSurname.isEmpty() ||
                 email.isEmpty() || password.isEmpty() || phone.isEmpty() || semesterStr.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos obligatorios", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-
-            // Validar que el semestre ingresado sea válido y no rebase el límite de la carrera seleccionada
-            val semestreIngresado = semesterStr.toIntOrNull() ?: 0
-            if (semestreIngresado <= 0) {
-                Toast.makeText(this, "El semestre debe ser mayor a 0", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (semestreIngresado > maxSemestresPermitidos) {
-                Toast.makeText(
-                    this,
-                    "La carrera seleccionada solo tiene un máximo de $maxSemestresPermitidos semestres",
-                    Toast.LENGTH_LONG
-                ).show()
                 return@setOnClickListener
             }
 
@@ -157,12 +139,10 @@ class RegisterStudentActivity : AppCompatActivity() {
             val bodyCarrera = idCarreraSeleccionada.toString().toRequestBody("text/plain".toMediaTypeOrNull()) // ID dinámico
             val bodySemester = semesterStr.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            // Preparar archivo de Currículum (Obligatorio)
             val curriculumFile = getFileFromUri(curriculumUri!!)
             val curriculumRequestBody = curriculumFile.asRequestBody("application/pdf".toMediaTypeOrNull())
             val curriculumPart = MultipartBody.Part.createFormData("curriculum", curriculumFile.name, curriculumRequestBody)
 
-            // Preparar archivo de Avatar (Opcional)
             var avatarPart: MultipartBody.Part? = null
             if (avatarUri != null) {
                 val avatarFile = getFileFromUri(avatarUri!!)
@@ -232,16 +212,22 @@ class RegisterStudentActivity : AppCompatActivity() {
             }
         })
 
-        // Capturar la opción seleccionada del Spinner y actualizar el límite de semestres
         spinnerCarrera.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (listaCarreras.isNotEmpty()) {
                     val carreraSeleccionada = listaCarreras[position]
                     idCarreraSeleccionada = carreraSeleccionada.idCarrera
-                    maxSemestresPermitidos = carreraSeleccionada.semestres
 
-                    // Muestra en la pista del campo cuántos semestres son el límite
-                    etSemester.hint = "Semestre (Máx. $maxSemestresPermitidos)"
+                    val maxSemestresPermitidos = carreraSeleccionada.semestres ?: 10
+
+                    val listaSemestres = (1..maxSemestresPermitidos).toList().map { it.toString() }
+
+                    val adapterSemestre = ArrayAdapter(
+                        this@RegisterStudentActivity,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        listaSemestres
+                    )
+                    spinnerSemestre.adapter = adapterSemestre
                 }
             }
 
@@ -249,7 +235,6 @@ class RegisterStudentActivity : AppCompatActivity() {
         }
     }
 
-    // Función para transformar un Uri de Android en un archivo físico temporal para Retrofit
     private fun getFileFromUri(uri: Uri): File {
         val file = File(cacheDir, "temp_file_${System.currentTimeMillis()}.pdf")
         try {

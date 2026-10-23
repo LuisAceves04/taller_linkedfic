@@ -43,6 +43,25 @@
             android:minLines="3" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Botón para seleccionar o cambiar la imagen -->
+    <Button
+        android:id="@+id/btnEditarSeleccionarImagen"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cambiar imagen (Opcional)" />
+
+    <!-- Vista previa de la nueva imagen seleccionada -->
+    <ImageView
+        android:id="@+id/ivEditarPreview"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:contentDescription="Vista previa de imagen" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

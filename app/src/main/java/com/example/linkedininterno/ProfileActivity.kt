@@ -3,13 +3,18 @@ package com.example.linkedininterno
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.linkedininterno.network.RetrofitClient
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -30,6 +35,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var tvProfileAboutValue: TextView
     private lateinit var tvProfileSkillsValue: TextView
     private lateinit var tvAvatarInitial: TextView
+    private lateinit var cardAvatar: MaterialCardView
+    private var ivAvatarPerfil: ImageView? = null
     private lateinit var btnLogoutProfile: Button
     private lateinit var btnVerCurriculum: Button
     private lateinit var btnEditProfile: Button
@@ -52,10 +59,22 @@ class ProfileActivity : AppCompatActivity() {
         tvProfileAboutValue = findViewById(R.id.tvProfileAboutValue)
         tvProfileSkillsValue = findViewById(R.id.tvProfileSkillsValue)
         tvAvatarInitial = findViewById(R.id.tvAvatarInitial)
+        cardAvatar = findViewById(R.id.cardAvatar)
         btnLogoutProfile = findViewById(R.id.btnLogoutProfile)
         btnVerCurriculum = findViewById(R.id.btnDownloadCv)
         btnEditProfile = findViewById(R.id.btnEditProfile)
         btnAddSkill = findViewById(R.id.btnAddSkill)
+
+        // Crear e insertar el ImageView dinámicamente usando FrameLayout.LayoutParams
+        ivAvatarPerfil = ImageView(this).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            visibility = View.GONE
+        }
+        cardAvatar.addView(ivAvatarPerfil)
 
         // Botón para editar el perfil
         btnEditProfile.setOnClickListener {
@@ -131,8 +150,10 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
 
-        // Cargar los datos desde el servidor
+    override fun onResume() {
+        super.onResume()
         cargarDatosPerfil()
     }
 
@@ -158,6 +179,30 @@ class ProfileActivity : AppCompatActivity() {
 
                     val alumno = usuario.alumno
 
+                    // Manejo del Avatar con Glide
+                    val avatarUrl = usuario.avatar
+                    if (!avatarUrl.isNullOrEmpty()) {
+                        tvAvatarInitial.visibility = View.GONE
+                        ivAvatarPerfil?.visibility = View.VISIBLE
+
+                        val urlCompleta = if (avatarUrl.startsWith("http")) avatarUrl else "http://10.0.2.2:8000/storage/$avatarUrl"
+
+                        Glide.with(this@ProfileActivity)
+                            .load(urlCompleta)
+                            .placeholder(R.drawable.logofic)
+                            .error(R.drawable.logofic)
+                            .centerCrop()
+                            .into(ivAvatarPerfil!!)
+                    } else {
+                        tvAvatarInitial.visibility = View.VISIBLE
+                        ivAvatarPerfil?.visibility = View.GONE
+                        if (!alumno?.nombre.isNullOrEmpty()) {
+                            tvAvatarInitial.text = alumno?.nombre?.first().toString().uppercase()
+                        } else {
+                            tvAvatarInitial.text = "U"
+                        }
+                    }
+
                     if (alumno != null) {
                         val nombreCompleto = "${alumno.nombre ?: ""} ${alumno.apellidoPaterno ?: ""} ${alumno.apellidoMaterno ?: ""}".trim()
 
@@ -167,11 +212,6 @@ class ProfileActivity : AppCompatActivity() {
                         tvProfileSemesterValue.text = (alumno.semestre ?: 0).toString()
 
                         tieneCurriculum = !alumno.curriculum.isNullOrEmpty()
-
-                        // Poner la primera letra del nombre en el avatar circular
-                        if (!alumno.nombre.isNullOrEmpty()) {
-                            tvAvatarInitial.text = alumno.nombre.first().toString().uppercase()
-                        }
                     } else {
                         tvProfileName.text = "Usuario sin perfil de alumno"
                         tvHeaderUsername.text = "Usuario"
@@ -183,7 +223,6 @@ class ProfileActivity : AppCompatActivity() {
                     tvProfilePhoneValue.text = usuario.telefono ?: "No registrado"
                     tvProfileAboutValue.text = usuario.sobreMi ?: "Sin descripción"
 
-                    // Habilidades leídas desde el objeto alumno
                     val habilidades = alumno?.habilidades
                     if (!habilidades.isNullOrEmpty()) {
                         tvProfileSkillsValue.text = habilidades.joinToString(", ") { it.nombre ?: "" }
@@ -206,7 +245,6 @@ class ProfileActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
         val token = sharedPreferences.getString("TOKEN", null) ?: return
 
-        // obtener el catálogo general de habilidades
         RetrofitClient.instance.obtenerHabilidades().enqueue(object : Callback<RespuestaHabilidades> {
             override fun onResponse(call: Call<RespuestaHabilidades>, response: Response<RespuestaHabilidades>) {
                 if (response.isSuccessful && response.body() != null) {
@@ -220,12 +258,10 @@ class ProfileActivity : AppCompatActivity() {
 
                     val nombresHabilidades = listaHabilidades.map { it.nombre ?: "Sin nombre" }.toTypedArray()
 
-                    // seleccionar la habilidad
                     AlertDialog.Builder(this@ProfileActivity)
                         .setTitle("Selecciona una habilidad")
                         .setItems(nombresHabilidades) { _, which ->
                             val habilidadSeleccionada = listaHabilidades[which]
-                            // Al elegir la habilidad, abrimos el segundo diálogo para el nivel
                             mostrarDialogoSeleccionarNivel(token, idHabilidad = habilidadSeleccionada.id ?: 0)
                         }
                         .setNegativeButton("Cancelar", null)

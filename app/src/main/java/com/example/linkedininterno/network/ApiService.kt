@@ -62,14 +62,18 @@ interface ApiService {
     fun obtenerPerfilJson(@Header("Authorization") token: String): Call<JsonObject>
 
     @Multipart
-    @PUT("perfil")
+    @POST("perfil")
     fun updatePerfil(
         @Header("Authorization") token: String,
+        @Part("_method") method: RequestBody,
         @Part("nombre") nombre: RequestBody?,
+        @Part("apellidoPaterno") apellidoPaterno: RequestBody?,
+        @Part("apellidoMaterno") apellidoMaterno: RequestBody?,
         @Part("telefono") telefono: RequestBody?,
         @Part("semestre") semestre: RequestBody?,
         @Part("sobreMi") sobreMi: RequestBody?,
-        @Part("idCarrera") idCarrera: RequestBody?
+        @Part("idCarrera") idCarrera: RequestBody?,
+        @Part avatar: MultipartBody.Part?
     ): Call<JsonObject>
 
     @GET("publicaciones")
@@ -90,12 +94,15 @@ interface ApiService {
         @Part multimedia: MultipartBody.Part?
     ): Call<JsonObject>
 
-    // ÚNICA función para editar publicación
-    @PUT("publicaciones/{idPublicacion}")
+    @Multipart
+    @POST("publicaciones/{idPublicacion}")
     fun editarPublicacion(
         @Header("Authorization") token: String,
         @Path("idPublicacion") idPublicacion: Int,
-        @Body request: EditPublicacionRequest
+        @Part("_method") method: RequestBody, // Le avisa a Laravel que esta petición actúa como un PUT
+        @Part("titulo") titulo: RequestBody,
+        @Part("contenido") contenido: RequestBody,
+        @Part multimedia: MultipartBody.Part? // Opcional: si el usuario no cambia la imagen, viaja null
     ): Call<JsonObject>
 
     @DELETE("publicaciones/{id}")
@@ -106,6 +113,12 @@ interface ApiService {
 
     @GET("habilidades")
     fun obtenerHabilidades(): Call<RespuestaHabilidades>
+
+    @DELETE("alumnos/habilidades/{id_alumno_habilidad}")
+    fun eliminarHabilidad(
+        @Header("Authorization") token: String,
+        @Path("id_alumno_habilidad") idAlumnoHabilidad: Int
+    ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("alumnos/habilidades")

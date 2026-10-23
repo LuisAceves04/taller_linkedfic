@@ -47,11 +47,24 @@ class MainActivity : AppCompatActivity() {
 
     private var imagenUri: Uri? = null
 
+    // Variables globales para la edición de la imagen dentro del diálogo
+    private var nuevaImagenUri: Uri? = null
+    private var ivEditarPreviewRef: ImageView? = null
+
     private val seleccionarImagenLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             imagenUri = uri
             ivPreviewImagen.setImageURI(uri)
             ivPreviewImagen.visibility = View.VISIBLE
+        }
+    }
+
+    // Launcher global para la edición (evita cierres forzosos)
+    private val selectorEdicionLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            nuevaImagenUri = uri
+            ivEditarPreviewRef?.setImageURI(uri)
+            ivEditarPreviewRef?.visibility = View.VISIBLE
         }
     }
 
@@ -196,11 +209,21 @@ class MainActivity : AppCompatActivity() {
 
         val etTitulo = dialogView.findViewById<TextInputEditText>(R.id.etEditarTitulo)
         val etContenido = dialogView.findViewById<TextInputEditText>(R.id.etEditarContenido)
+        val btnSeleccionarImagen = dialogView.findViewById<Button>(R.id.btnEditarSeleccionarImagen)
+        val ivPreview = dialogView.findViewById<ImageView>(R.id.ivEditarPreview)
         val btnCancelar = dialogView.findViewById<Button>(R.id.btnCancelarEdicion)
         val btnGuardar = dialogView.findViewById<Button>(R.id.btnGuardarEdicion)
 
         etTitulo.setText(publicacion.titulo)
         etContenido.setText(publicacion.contenido)
+
+        nuevaImagenUri = null
+        ivEditarPreviewRef = ivPreview
+        ivPreview.visibility = View.GONE
+
+        btnSeleccionarImagen.setOnClickListener {
+            selectorEdicionLauncher.launch("image/*")
+        }
 
         val builder = AlertDialog.Builder(this)
         builder.setView(dialogView)
@@ -221,41 +244,65 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val request = EditPublicacionRequest(nuevoTitulo, nuevoContenido)
+            val methodBody = "PUT".toRequestBody("text/plain".toMediaTypeOrNull())
+            val tituloBody = nuevoTitulo.toRequestBody("text/plain".toMediaTypeOrNull())
+            val contenidoBody = nuevoContenido.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            RetrofitClient.instance.editarPublicacion("Bearer $token", publicacion.idPublicacion, request)
-                .enqueue(object : Callback<JsonObject> {
-                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(this@MainActivity, "Actualizado correctamente", Toast.LENGTH_SHORT).show()
-                            dialog.dismiss()
-                            cargarPublicaciones()
-                        } else {
-                            Toast.makeText(this@MainActivity, "Error al actualizar", Toast.LENGTH_SHORT).show()
+            // Preparar la imagen solo si el usuario seleccionó una nueva
+            var multimediaPart: MultipartBody.Part? = null
+            if (nuevaImagenUri != null) {
+                try {
+                    val file = File(cacheDir, "edit_temp_image.jpg")
+                    contentResolver.openInputStream(nuevaImagenUri!!)?.use { inputStream ->
+                        FileOutputStream(file).use { outputStream ->
+                            inputStream.copyTo(outputStream)
                         }
                     }
+                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                    multimediaPart = MultipartBody.Part.createFormData("multimedia", file.name, requestFile)
+                } catch (_: Exception) {
+                    Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                        Toast.makeText(this@MainActivity, "Error de red", Toast.LENGTH_SHORT).show()
+            // Llamada a Retrofit
+            RetrofitClient.instance.editarPublicacion(
+                "Bearer $token",
+                publicacion.idPublicacion,
+                methodBody,
+                tituloBody,
+                contenidoBody,
+                multimediaPart
+            ).enqueue(object : Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@MainActivity, "Actualizado correctamente", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                        cargarPublicaciones()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Error al actualizar", Toast.LENGTH_SHORT).show()
                     }
-                })
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
         dialog.show()
     }
+
     private fun mostrarDialogoEliminar(idPublicacion: Int) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Eliminar publicación")
         builder.setMessage("¿Estás seguro de que quieres borrar esta publicación? Esta acción no se puede deshacer.")
 
-        // Botón rojo para confirmar
         builder.setPositiveButton("Eliminar") { dialog, _ ->
-            // Si dice que sí, llamamos a la función que contacta a Laravel
             eliminarPublicacionServer(idPublicacion)
             dialog.dismiss()
         }
 
-        // Botón gris para cancelar
         builder.setNegativeButton("Cancelar") { dialog, _ ->
             dialog.dismiss()
         }

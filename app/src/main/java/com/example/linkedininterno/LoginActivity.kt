@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,18 +20,34 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Vincular los elementos visuales con sus IDs correctos
         val etEmail = findViewById<EditText>(R.id.etcorreo)
         val etPassword = findViewById<EditText>(R.id.etcontrasena)
         val btnLogin = findViewById<Button>(R.id.buttonLogin)
         val tvRegistrate = findViewById<TextView>(R.id.tvRegistrateAqui)
+
+        val btnOjoContrasena = findViewById<ImageButton>(R.id.btnOjoContrasena)
+
+        var isPasswordVisible = false
+
+        btnOjoContrasena.setOnClickListener {
+            if (isPasswordVisible) {
+                etPassword.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
+                btnOjoContrasena.setImageResource(android.R.drawable.ic_menu_view)
+                isPasswordVisible = false
+            } else {
+                etPassword.transformationMethod = android.text.method.HideReturnsTransformationMethod.getInstance()
+                btnOjoContrasena.setImageResource(android.R.drawable.ic_menu_upload)
+                isPasswordVisible = true
+            }
+            etPassword.setSelection(etPassword.text.length)
+        }
 
         tvRegistrate.setOnClickListener {
             val intent = Intent(this, RegisterStudentActivity::class.java)
             startActivity(intent)
         }
 
-        // Acción cuando presionen el botón
+        // Acción cuando presionen el botón de inicio de sesión
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
