@@ -2,6 +2,7 @@ package com.example.linkedininterno
 
 import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -36,12 +38,14 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var etEditAbout: TextInputEditText
     private lateinit var btnSaveChanges: Button
 
-    // Componente para la foto de perfil (Avatar)
     private lateinit var ivAvatarPreview: ImageView
     private lateinit var btnCambiarAvatar: Button
     private var avatarUri: Uri? = null
 
-    // Los dos spinners
+    private lateinit var btnSeleccionarCv: Button
+    private lateinit var tvNombreCvSeleccionado: TextView
+    private var curriculumUri: Uri? = null
+
     private lateinit var spinnerMajor: Spinner
     private lateinit var spinnerSemester: Spinner
 
@@ -56,7 +60,17 @@ class EditProfileActivity : AppCompatActivity() {
     private val seleccionarAvatarLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             avatarUri = uri
-            ivAvatarPreview.setImageURI(uri) // Muestra la vista previa instantánea
+            ivAvatarPreview.setImageURI(uri)
+        }
+    }
+
+    // Launcher para seleccionar el archivo PDF del Currículum
+    private val seleccionarCvLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            curriculumUri = uri
+            val nombreArchivo = obtenerNombreArchivo(uri)
+            tvNombreCvSeleccionado.text = "📄 Archivo seleccionado: $nombreArchivo"
+            tvNombreCvSeleccionado.visibility = View.VISIBLE
         }
     }
 
@@ -74,9 +88,11 @@ class EditProfileActivity : AppCompatActivity() {
         etEditAbout = findViewById(R.id.etEditAbout)
         btnSaveChanges = findViewById(R.id.btnSaveChanges)
 
-        // Vincular vistas de la imagen de perfil
-        ivAvatarPreview = findViewById(R.id.ivAvatarPreview) // Asegúrate de que este ID coincida con tu XML
-        btnCambiarAvatar = findViewById(R.id.btnCambiarAvatar) // Asegúrate de que este ID coincida con tu XML
+        ivAvatarPreview = findViewById(R.id.ivAvatarPreview)
+        btnCambiarAvatar = findViewById(R.id.btnCambiarAvatar)
+
+        btnSeleccionarCv = findViewById(R.id.btnSeleccionarCv)
+        tvNombreCvSeleccionado = findViewById(R.id.tvNombreCvSeleccionado)
 
         spinnerMajor = findViewById(R.id.spinnerEditMajor)
         spinnerSemester = findViewById(R.id.spinnerEditSemester)
@@ -87,10 +103,25 @@ class EditProfileActivity : AppCompatActivity() {
             seleccionarAvatarLauncher.launch("image/*")
         }
 
+        btnSeleccionarCv.setOnClickListener {
+            seleccionarCvLauncher.launch("application/pdf")
+        }
+
         findViewById<Button>(R.id.btnCancelEdit).setOnClickListener { finish() }
         btnSaveChanges.setOnClickListener { enviarDatosActualizados() }
 
         cargarCarrerasYPerfil()
+    }
+
+    private fun obtenerNombreArchivo(uri: Uri): String {
+        var nombre = "curriculum.pdf"
+        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex != -1 && cursor.moveToFirst()) {
+                nombre = cursor.getString(nameIndex)
+            }
+        }
+        return nombre
     }
 
     private fun cargarCarrerasYPerfil() {
@@ -149,10 +180,6 @@ class EditProfileActivity : AppCompatActivity() {
                         etEditApellidoM.setText(alumno.apellidoMaterno ?: "")
                         etEditPhone.setText(usuario?.telefono ?: "")
                         etEditAbout.setText(usuario?.sobreMi ?: "")
-
-                        // NOTA: Si cargas la imagen actual del avatar con Glide o Picasso, puedes ponerla aquí:
-                        // val avatarUrl = usuario?.avatar
-                        // if (!avatarUrl.isNullOrEmpty()) { Glide.with(this).load(avatarUrl).into(ivAvatarPreview) }
 
                         semestreGuardadoUsuario = alumno.semestre
 
@@ -221,10 +248,8 @@ class EditProfileActivity : AppCompatActivity() {
         val idCarreraElegida = if (posCarrera >= 0 && listaCarreras.isNotEmpty()) listaCarreras[posCarrera].idCarrera else null
         val semestreElegido = spinnerSemester.selectedItem?.toString() ?: "1"
 
-        // 1. Preparar el método PUT oculto para Laravel
         val methodBody = "PUT".toRequestBody("text/plain".toMediaTypeOrNull())
 
-        // 2. Convertir los campos de texto a RequestBody
         val nombreBody = nombreStr.toRequestBody("text/plain".toMediaTypeOrNull())
         val apellidoPBody = apellidoPStr.toRequestBody("text/plain".toMediaTypeOrNull())
         val apellidoMBody = apellidoMStr.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -233,7 +258,6 @@ class EditProfileActivity : AppCompatActivity() {
         val sobreMiBody = sobreMiStr.toRequestBody("text/plain".toMediaTypeOrNull())
         val idCarreraBody = idCarreraElegida?.toString()?.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        // 3. Preparar la imagen del Avatar (si el usuario seleccionó una nueva)
         var avatarPart: MultipartBody.Part? = null
         if (avatarUri != null) {
             try {
@@ -250,7 +274,22 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
-        // 4. Enviar mediante Retrofit con soporte Multipart
+        var curriculumPart: MultipartBody.Part? = null
+        if (curriculumUri != null) {
+            try {
+                val file = File(cacheDir, "curriculum_temp.pdf")
+                contentResolver.openInputStream(curriculumUri!!)?.use { inputStream ->
+                    FileOutputStream(file).use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                }
+                val requestFile = file.asRequestBody("application/pdf".toMediaTypeOrNull())
+                curriculumPart = MultipartBody.Part.createFormData("curriculum", file.name, requestFile)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error al procesar el archivo PDF del currículum", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         RetrofitClient.instance.updatePerfil(
             token = "Bearer $tokenActual",
             method = methodBody,
@@ -261,7 +300,8 @@ class EditProfileActivity : AppCompatActivity() {
             semestre = semestreBody,
             sobreMi = sobreMiBody,
             idCarrera = idCarreraBody,
-            avatar = avatarPart
+            avatar = avatarPart,
+            curriculum = curriculumPart
         ).enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {

@@ -1,10 +1,12 @@
 package com.example.linkedininterno.network
 
 import com.example.linkedininterno.Habilidad
+import com.example.linkedininterno.Industria
 import com.example.linkedininterno.RespuestaCarreras
 import com.example.linkedininterno.RespuestaPerfil
 import com.example.linkedininterno.Publicacion
 import com.example.linkedininterno.RespuestaHabilidades
+import com.example.linkedininterno.RespuestaIndustrias
 import com.example.linkedininterno.RespuestaPublicaciones
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
@@ -22,6 +24,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 data class EditPublicacionRequest(
     val titulo: String,
@@ -31,7 +34,9 @@ data class EditPublicacionRequest(
 interface ApiService {
 
     @POST("login")
-    fun login(@Body credentials: JsonObject): Call<JsonObject>
+    fun login(
+        @Body request: JsonObject
+    ): Call<JsonObject>
 
     @Multipart
     @POST("alumnos")
@@ -73,7 +78,8 @@ interface ApiService {
         @Part("semestre") semestre: RequestBody?,
         @Part("sobreMi") sobreMi: RequestBody?,
         @Part("idCarrera") idCarrera: RequestBody?,
-        @Part avatar: MultipartBody.Part?
+        @Part avatar: MultipartBody.Part?,
+        @Part curriculum: MultipartBody.Part?
     ): Call<JsonObject>
 
     @GET("publicaciones")
@@ -91,7 +97,8 @@ interface ApiService {
         @Part("idUsuario") idUsuario: RequestBody,
         @Part("titulo") titulo: RequestBody,
         @Part("contenido") contenido: RequestBody,
-        @Part multimedia: MultipartBody.Part?
+        @Part multimedia: MultipartBody.Part?,
+        @Part("published_at") publishedAt: RequestBody? = null
     ): Call<JsonObject>
 
     @Multipart
@@ -99,10 +106,10 @@ interface ApiService {
     fun editarPublicacion(
         @Header("Authorization") token: String,
         @Path("idPublicacion") idPublicacion: Int,
-        @Part("_method") method: RequestBody, // Le avisa a Laravel que esta petición actúa como un PUT
+        @Part("_method") method: RequestBody,
         @Part("titulo") titulo: RequestBody,
         @Part("contenido") contenido: RequestBody,
-        @Part multimedia: MultipartBody.Part? // Opcional: si el usuario no cambia la imagen, viaja null
+        @Part multimedia: MultipartBody.Part?
     ): Call<JsonObject>
 
     @DELETE("publicaciones/{id}")
@@ -132,4 +139,40 @@ interface ApiService {
     fun descargarCurriculum(
         @Header("Authorization") token: String
     ): Call<ResponseBody>
+
+    @Multipart
+    @POST("empresas")
+    fun registrarEmpresa(
+        @Part("idRol") idRol: RequestBody,
+        @Part("nombreEmpresa") nombreEmpresa: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("telefono") telefono: RequestBody?,
+        @Part("paginaWeb") paginaWeb: RequestBody?,
+        @Part("sobreMi") sobreMi: RequestBody?,
+        @Part("idIndustria") idIndustria: RequestBody,
+        @Part avatar: MultipartBody.Part? = null
+    ): Call<JsonObject>
+
+    @GET("industrias")
+    fun obtenerIndustrias(): Call<RespuestaIndustrias>
+
+    @Multipart
+    @POST("perfil")
+    fun updatePerfilEmpresa(
+        @Header("Authorization") token: String,
+        @Part("_method") method: RequestBody,
+        @Part("nombreEmpresa") nombreEmpresa: RequestBody?,
+        @Part("telefono") telefono: RequestBody?,
+        @Part("paginaWeb") paginaWeb: RequestBody?,
+        @Part("sobreMi") sobreMi: RequestBody?,
+        @Part("idIndustria") idIndustria: RequestBody?,
+        @Part avatar: MultipartBody.Part?
+    ): Call<JsonObject>
+
+    @GET("usuarios/{id}/perfil")
+    fun obtenerPerfilPorId(
+        @Header("Authorization") token: String,
+        @Path("id") idUsuario: Int
+    ): Call<RespuestaPerfil>
 }

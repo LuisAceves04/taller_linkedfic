@@ -1,87 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@android:color/white">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Editar Publicación"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="16dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Título de la publicación"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditarTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="¿Qué quieres cambiar?"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditarContenido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:minLines="3" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Botón para seleccionar o cambiar la imagen -->
-    <Button
-        android:id="@+id/btnEditarSeleccionarImagen"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Cambiar imagen (Opcional)" />
-
-    <!-- Vista previa de la nueva imagen seleccionada -->
-    <ImageView
-        android:id="@+id/ivEditarPreview"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:contentDescription="Vista previa de imagen" />
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    android:backgroundTint="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnCancelarEdicion"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
-            android:textColor="@android:color/darker_gray"/>
+            android:text="Editar Publicación"
+            android:textColor="#0A66C2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnGuardarEdicion"
-            android:layout_width="wrap_content"
+        <!-- Título -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:layout_marginStart="8dp"/>
+            android:hint="Título"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditarTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Contenido -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contenido"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditarContenido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:minLines="3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Previsualización de Imagen -->
+        <ImageView
+            android:id="@+id/ivEditarPreview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Vista previa de imagen" />
+
+        <!-- Previsualización de Video -->
+        <VideoView
+            android:id="@+id/vvEditarPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón para seleccionar nuevo archivo multimedia -->
+        <Button
+            android:id="@+id/btnEditarSeleccionarImagen"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cambiar Foto o Video"
+            android:textColor="#536471"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botones de Acción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnCancelarEdicion"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:textColor="#536471" />
+
+            <Button
+                android:id="@+id/btnGuardarEdicion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#0A66C2"
+                android:text="Guardar Cambios"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

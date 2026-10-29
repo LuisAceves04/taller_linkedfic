@@ -11,5 +11,6 @@ data class Publicacion(
     @SerializedName("published_at") val publishedAt: String?,
     @SerializedName("created_at") val createdAt: String?,
     @SerializedName("usuario") val usuario: Usuario?,
-    @SerializedName("updated_at") val updatedAt: String?
+    @SerializedName("updated_at") val updatedAt: String?,
+    @SerializedName(value = "esMia", alternate = ["es_mia"]) val esMia: Boolean? = false
 )

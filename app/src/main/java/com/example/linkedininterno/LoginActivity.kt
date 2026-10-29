@@ -43,22 +43,18 @@ class LoginActivity : AppCompatActivity() {
         }
 
         tvRegistrate.setOnClickListener {
-            val intent = Intent(this, RegisterStudentActivity::class.java)
+            val intent = Intent(this, RegisterTypeActivity::class.java)
             startActivity(intent)
         }
 
-        // Acción cuando presionen el botón de inicio de sesión
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
-            // Validar que los campos no estén vacíos
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Por favor llena todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            // JSON que se mandará a Laravel
             val jsonBody = JsonObject().apply {
                 addProperty("email", email)
                 addProperty("password", password)
@@ -99,23 +95,36 @@ class LoginActivity : AppCompatActivity() {
                     val json = response.body()!!
 
                     var idUsuario = -1
+                    var idRol = 1 // Por defecto Alumno si no viene en la respuesta
+
                     try {
-                        if (json.has("usuario")) {
-                            idUsuario = json.getAsJsonObject("usuario").get("idUsuario").asInt
-                        } else if (json.has("user")) {
-                            idUsuario = json.getAsJsonObject("user").get("id").asInt
-                        } else if (json.has("data")) {
-                            idUsuario = json.getAsJsonObject("data").get("id").asInt
-                        } else if (json.has("id")) {
-                            idUsuario = json.get("id").asInt
+                        val usuarioObj = when {
+                            json.has("usuario") -> json.getAsJsonObject("usuario")
+                            json.has("user") -> json.getAsJsonObject("user")
+                            json.has("data") -> json.getAsJsonObject("data")
+                            else -> json
+                        }
+
+                        if (usuarioObj.has("idUsuario")) {
+                            idUsuario = usuarioObj.get("idUsuario").asInt
+                        } else if (usuarioObj.has("id")) {
+                            idUsuario = usuarioObj.get("id").asInt
+                        }
+
+                        if (usuarioObj.has("idRol")) {
+                            idRol = usuarioObj.get("idRol").asInt
                         }
                     } catch (e: Exception) {
-                        Log.e("LOGIN_DEBUG", "Error extrayendo ID: ${e.message}")
+                        Log.e("LOGIN_DEBUG", "Error extrayendo ID/Rol: ${e.message}")
                     }
 
                     if (idUsuario != -1) {
                         val sharedPreferences = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
-                        sharedPreferences.edit().putInt("ID_USUARIO", idUsuario).commit()
+                        sharedPreferences.edit()
+                            .putInt("ID_USUARIO", idUsuario)
+                            .putInt("ID_ROL", idRol)
+                            .putInt("idRol", idRol)
+                            .commit()
 
                         Toast.makeText(this@LoginActivity, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
 

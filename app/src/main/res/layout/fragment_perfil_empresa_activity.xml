@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F3F2EF">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Top Header Bar -->
+        <View
+            android:id="@+id/headerBarEmpresa"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="#1B365D"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivHeaderLogoEmpresa"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/logofic"
+            app:layout_constraintBottom_toBottomOf="@id/headerBarEmpresa"
+            app:layout_constraintStart_toStartOf="@id/headerBarEmpresa"
+            app:layout_constraintTop_toTopOf="@id/headerBarEmpresa" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/headerBarEmpresa"
+            app:layout_constraintEnd_toEndOf="@id/headerBarEmpresa"
+            app:layout_constraintTop_toTopOf="@id/headerBarEmpresa">
+
+            <TextView
+                android:id="@+id/tvHeaderUsernameEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:text="Empresa" />
+
+            <Button
+                android:id="@+id/btnLogoutProfileEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@android:color/white"
+                android:text="Cerrar Sesión"
+                android:textColor="#1860A8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:strokeColor="#1860A8"
+                app:strokeWidth="1dp"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <!-- Main Profile Card Container -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardProfileContentEmpresa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerBarEmpresa">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <!-- Editar Perfil Button -->
+                <Button
+                    android:id="@+id/btnEditProfileEmpresa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:backgroundTint="#1860A8"
+                    android:text="✏️ Editar Perfil"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Avatar / Logo Circle -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatarEmpresa"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="#1860A8"
+                    app:cardCornerRadius="36dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnEditProfileEmpresa">
+
+                    <TextView
+                        android:id="@+id/tvAvatarInitialEmpresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        tools:text="E" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatarProfileEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Logotipo de la empresa"
+                        android:scaleType="centerCrop" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Company Name -->
+                <TextView
+                    android:id="@+id/tvProfileNameEmpresa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#0B0404"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardAvatarEmpresa"
+                    tools:text="Nombre de la Empresa" />
+
+                <!-- Role Badge -->
+                <TextView
+                    android:id="@+id/tvProfileRoleBadgeEmpresa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="#6C757D"
+                    android:paddingStart="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="4dp"
+                    android:text="Empresa"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfileNameEmpresa" />
+
+                <!-- SECTION 1: INFORMACIÓN CORPORATIVA -->
+                <TextView
+                    android:id="@+id/tvSectionCorporate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="🏢 INFORMACIÓN CORPORATIVA"
+                    android:textColor="#1860A8"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfileRoleBadgeEmpresa" />
+
+                <!-- Industria / Sector -->
+                <TextView
+                    android:id="@+id/tvLabelIndustryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Industria / Sector"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSectionCorporate" />
+
+                <TextView
+                    android:id="@+id/tvProfileIndustryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0B0404"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvLabelIndustryTitle"
+                    tools:text="Tecnología de la Información" />
+
+                <!-- Sitio Web Corporativo -->
+                <TextView
+                    android:id="@+id/tvLabelWebTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sitio Web"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelIndustryTitle" />
+
+                <TextView
+                    android:id="@+id/tvProfileWebValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#1860A8"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvLabelWebTitle"
+                    tools:text="https://empresa.com" />
+
+                <!-- Divider 1 -->
+                <View
+                    android:id="@+id/divider1Empresa"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelWebTitle" />
+
+                <!-- SECTION 2: INFORMACIÓN DE CONTACTO Y DESCRIPCIÓN -->
+                <TextView
+                    android:id="@+id/tvSectionContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="📞 CONTACTO Y DESCRIPCIÓN"
+                    android:textColor="#1860A8"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1Empresa" />
+
+                <!-- Correo Electrónico -->
+                <TextView
+                    android:id="@+id/tvLabelEmailEmpresaTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Correo Electrónico"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSectionContact" />
+
+                <TextView
+                    android:id="@+id/tvProfileEmailEmpresaValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0B0404"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvLabelEmailEmpresaTitle"
+                    tools:text="contacto@empresa.com" />
+
+                <!-- Teléfono -->
+                <TextView
+                    android:id="@+id/tvLabelPhoneEmpresaTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Teléfono"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelEmailEmpresaTitle" />
+
+                <TextView
+                    android:id="@+id/tvProfilePhoneEmpresaValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#0B0404"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvLabelPhoneEmpresaTitle"
+                    tools:text="+52 667 123 4567" />
+
+                <!-- Sobre la Empresa -->
+                <TextView
+                    android:id="@+id/tvLabelAboutEmpresaTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sobre la Empresa"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelPhoneEmpresaTitle" />
+
+                <TextView
+                    android:id="@+id/tvProfileAboutEmpresaValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:gravity="end"
+                    android:textColor="#0B0404"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvLabelAboutEmpresaTitle"
+                    app:layout_constraintTop_toTopOf="@id/tvLabelAboutEmpresaTitle"
+                    tools:text="Empresa dedicada al desarrollo de software corporativo y servicios en la nube..." />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

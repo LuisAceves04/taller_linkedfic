@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F3F2EF">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Header Bar Azul Corporativo -->
+        <View
+            android:id="@+id/headerBar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="#1B365D"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivHeaderLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:contentDescription="Logo LinkedFIC"
+            android:scaleType="centerInside"
+            android:src="@drawable/logofic"
+            app:layout_constraintBottom_toBottomOf="@id/headerBar"
+            app:layout_constraintStart_toStartOf="@id/headerBar"
+            app:layout_constraintTop_toTopOf="@id/headerBar" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/headerBar"
+            app:layout_constraintEnd_toEndOf="@id/headerBar"
+            app:layout_constraintTop_toTopOf="@id/headerBar">
+
+            <TextView
+                android:id="@+id/tvHeaderUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:text="Empresa" />
+
+            <Button
+                android:id="@+id/btnCancelarEditEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@android:color/white"
+                android:text="Cancelar"
+                android:textColor="#1B365D"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:strokeColor="#1B365D"
+                app:strokeWidth="1dp"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <!-- Tarjeta Principal del Formulario -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardProfileContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerBar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <!-- Título de la Pantalla -->
+                <TextView
+                    android:id="@+id/tvEditTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Editar Perfil de Empresa"
+                    android:textColor="#1B365D"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Avatar Circle de la Empresa -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvatar"
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="#1B365D"
+                    app:cardCornerRadius="44dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvEditTitle">
+
+                    <TextView
+                        android:id="@+id/tvAvatarInitialEmpresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        tools:text="E" />
+
+                    <ImageView
+                        android:id="@+id/ivEditAvatarEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Vista previa de avatar"
+                        android:scaleType="centerCrop" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Botón Cambiar Foto -->
+                <Button
+                    android:id="@+id/btnCambiarFotoEmpresa"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Cambiar logo o imagen corporativa"
+                    android:textColor="#1B365D"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardAvatar" />
+
+                <!-- SECCIÓN 1: INFORMACIÓN CORPORATIVA -->
+                <TextView
+                    android:id="@+id/tvSectionCorporate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="🏢 INFORMACIÓN CORPORATIVA"
+                    android:textColor="#1B365D"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnCambiarFotoEmpresa" />
+
+                <!-- Nombre de la Empresa -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNombreEmpresa"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Nombre de la Empresa"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSectionCorporate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditNombreEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sitio Web -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPaginaWeb"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Sitio Web (ej. https://empresa.com)"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilNombreEmpresa">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditPaginaWeb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textUri"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Selector de Industria / Sector -->
+                <TextView
+                    android:id="@+id/tvLabelIndustriaSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Industria / Sector"
+                    android:textColor="#666666"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilPaginaWeb" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEditIndustria"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="4dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="10dp"
+                    app:strokeColor="#3A3A3A"
+                    app:strokeWidth="1.5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvLabelIndustriaSpinner">
+
+                    <Spinner
+                        android:id="@+id/spinnerIndustrias"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Separador 1 -->
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardEditIndustria" />
+
+                <!-- SECCIÓN 2: CONTACTO Y DESCRIPCIÓN -->
+                <TextView
+                    android:id="@+id/tvSectionContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="📞 CONTACTO Y DESCRIPCIÓN"
+                    android:textColor="#1B365D"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+                <!-- Teléfono de Contacto -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPhone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Teléfono de Contacto"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSectionContact">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditTelefonoEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sobre la Empresa -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAbout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Sobre la Empresa / Descripción"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilPhone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditSobreMiEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Separador 2 -->
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilAbout" />
+
+                <!-- Botón Guardar Cambios -->
+                <Button
+                    android:id="@+id/btnGuardarPerfilEmpresa"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="#1B365D"
+                    android:text="Guardar Cambios"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

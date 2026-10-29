@@ -3,13 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollRegisterCompany"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@android:color/white">
-
-
+    android:background="#F3F2EF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,206 +14,224 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/tvTitleRegisterCompany"
+            android:id="@+id/tvRegistroEmpresaTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/title_register_company"
-            android:textColor="#0B0404"
-            android:textSize="26sp"
+            android:text="Registro de Empresa"
+            android:textColor="#1860A8"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvSubtitleRegisterCompany"
+        <!-- Avatar Circle / Logotipo de la Empresa -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAvatarEmpresa"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="#1860A8"
+            app:cardCornerRadius="44dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRegistroEmpresaTitle">
+
+            <TextView
+                android:id="@+id/tvAvatarEmpresaInitial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="E"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivAvatarEmpresaPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:contentDescription="Vista previa avatar" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnCambiarAvatarEmpresa"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/subtitle_register_company"
-            android:textColor="#666666"
-            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:text="Seleccionar logotipo"
+            android:textColor="#1860A8"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitleRegisterCompany" />
+            app:layout_constraintTop_toBottomOf="@id/cardAvatarEmpresa" />
 
         <!-- Nombre de la Empresa -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCompanyName"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="#3A3A3A"
-            app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitleRegisterCompany">
-
-            <EditText
-                android:id="@+id/etCompanyName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/hint_company_name"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#0A66C2"
-                android:textColorHint="#666666"
-                android:textSize="16sp" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Correo Electrónico Corporativo -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCompanyEmail"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNombreEmpresa"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="#3A3A3A"
-            app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/cardCompanyName">
+            android:hint="Nombre de la Empresa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCambiarAvatarEmpresa">
 
-            <EditText
-                android:id="@+id/etCompanyEmail"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNombreEmpresa"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/hint_corp_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#0A66C2"
-                android:textColorHint="#666666"
-                android:textSize="16sp" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Correo Electrónico -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCorreoEmpresa"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Correo Electrónico"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilNombreEmpresa">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCorreoEmpresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Contraseña -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCompanyPassword"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="#3A3A3A"
-            app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/cardCompanyEmail">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPasswordEmpresa"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Contraseña (mín. 6 caracteres)"
+            app:endIconMode="password_toggle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilCorreoEmpresa">
 
-            <EditText
-                android:id="@+id/etCompanyPassword"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPasswordEmpresa"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/hint_password_req"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#0A66C2"
-                android:textColorHint="#666666"
-                android:textSize="16sp" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Descripción / Presentación (Opcional) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCompanyDescription"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="10dp"
-            app:strokeColor="#3A3A3A"
-            app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/cardCompanyPassword">
+        <!-- Teléfono -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilTelefonoEmpresa"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Teléfono de contacto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilPasswordEmpresa">
 
-            <EditText
-                android:id="@+id/etCompanyDescription"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTelefonoEmpresa"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:gravity="top|start"
-                android:hint="@string/hint_company_desc"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Página Web -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPaginaWeb"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Página Web (Opcional)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilTelefonoEmpresa">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPaginaWeb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Sobre Mí / Descripción de la Empresa -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSobreMiEmpresa"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Descripción de la empresa (Opcional)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilPaginaWeb">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSobreMiEmpresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:padding="16dp"
-                android:textColor="#0A66C2"
-                android:textColorHint="#666666"
-                android:textSize="15sp" />
-        </com.google.android.material.card.MaterialCardView>
+                android:lines="3"
+                android:gravity="top" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Spinner Industria / Sector -->
+        <!-- Spinner de Industria -->
         <TextView
-            android:id="@+id/tvLabelIndustry"
+            android:id="@+id/tvLabelIndustria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/label_select_industry"
-            android:textColor="#191919"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:text="Industria"
+            android:textColor="#666666"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardCompanyDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tilSobreMiEmpresa" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCompanyIndustry"
-            android:layout_width="match_parent"
+            android:id="@+id/cardEditIndustria"
+            android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             app:cardBackgroundColor="#FFFFFF"
             app:cardCornerRadius="10dp"
             app:strokeColor="#3A3A3A"
             app:strokeWidth="1.5dp"
-            app:layout_constraintTop_toBottomOf="@id/tvLabelIndustry">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLabelIndustria">
 
             <Spinner
-                android:id="@+id/spIndustries"
+                android:id="@+id/spinnerIndustria"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Botón Registrarse -->
+        <!-- Botón Registrar -->
         <Button
-            android:id="@+id/btnRegisterCompany"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:id="@+id/btnRegistrarEmpresa"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
             android:layout_marginTop="28dp"
-            android:backgroundTint="@color/azul_institucional"
-            android:text="@string/btn_create_company_account"
-            android:textColor="#FFFFFF"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/cardCompanyIndustry" />
-
-        <ProgressBar
-            android:id="@+id/progressBarCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"
-            android:indeterminateTint="@color/azul_institucional"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnRegisterCompany" />
-
-        <TextView
-            android:id="@+id/tvBackToLoginFromCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:minHeight="48dp"
-            android:text="@string/back_to_login_prompt"
-            android:textColor="@color/azul_institucional"
-            android:textSize="15sp"
+            android:backgroundTint="#1860A8"
+            android:text="Registrar Empresa"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progressBarCompany" />
+            app:layout_constraintTop_toBottomOf="@id/cardEditIndustria" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

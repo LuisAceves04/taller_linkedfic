@@ -128,7 +128,7 @@ class RegisterStudentActivity : AppCompatActivity() {
             btnRegister.isEnabled = false
 
             // Convertir textos a RequestBody para Multipart
-            val bodyIdRol = "2".toRequestBody("text/plain".toMediaTypeOrNull()) // 2 = Rol Alumno
+            val bodyIdRol = "1".toRequestBody("text/plain".toMediaTypeOrNull())
             val bodyEmail = email.toRequestBody("text/plain".toMediaTypeOrNull())
             val bodyPassword = password.toRequestBody("text/plain".toMediaTypeOrNull())
             val bodyPhone = phone.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -136,7 +136,7 @@ class RegisterStudentActivity : AppCompatActivity() {
             val bodyFirstName = firstName.toRequestBody("text/plain".toMediaTypeOrNull())
             val bodyPaternal = paternalSurname.toRequestBody("text/plain".toMediaTypeOrNull())
             val bodyMaternal = maternalSurname.toRequestBody("text/plain".toMediaTypeOrNull())
-            val bodyCarrera = idCarreraSeleccionada.toString().toRequestBody("text/plain".toMediaTypeOrNull()) // ID dinámico
+            val bodyCarrera = idCarreraSeleccionada.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val bodySemester = semesterStr.toRequestBody("text/plain".toMediaTypeOrNull())
 
             val curriculumFile = getFileFromUri(curriculumUri!!)
