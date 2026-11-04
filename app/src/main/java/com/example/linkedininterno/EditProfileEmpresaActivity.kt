@@ -47,7 +47,7 @@ class EditProfileEmpresaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile_empresa_activity)
+        setContentView(R.layout.activity_edit_company_profile)
 
         ivAvatar = findViewById(R.id.ivEditAvatarEmpresa)
         btnCambiarFoto = findViewById(R.id.btnCambiarFotoEmpresa)
