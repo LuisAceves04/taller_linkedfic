@@ -39,7 +39,7 @@ class PerfilEmpresaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Asegúrate de que el nombre del layout coincida con el nombre de tu archivo XML (ej. fragment_perfil_empresa o fragment_perfil_empresa_activity)
-        val view = inflater.inflate(R.layout.fragment_perfil_empresa_activity, container, false)
+        val view = inflater.inflate(R.layout.activity_company_profile, container, false)
 
         val prefs = requireContext().getSharedPreferences("SesionUsuario", Context.MODE_PRIVATE)
         val miIdUsuario = prefs.getInt("ID_USUARIO", -1)

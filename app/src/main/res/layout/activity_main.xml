@@ -248,6 +248,34 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
+        <!-- Botón central para Mensajes -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="@color/azul_institucional"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp">
+
+                <ImageButton
+                    android:id="@+id/btnGoToMessaging"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/messaging_title"
+                    android:padding="12dp"
+                    android:scaleType="centerInside"
+                    android:src="@android:drawable/ic_dialog_email"
+                    app:tint="@color/white"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
         <!-- Botón Cerrar Sesión Circular -->
         <LinearLayout
             android:layout_width="0dp"
