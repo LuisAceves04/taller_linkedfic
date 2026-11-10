@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
         tvFechaProgramada = findViewById(R.id.tvFechaProgramada)
         btnLimpiarFecha = findViewById(R.id.btnLimpiarFecha)
 
-        // Feed de Publicaciones con redirección al perfil del autor
         rvPublicaciones.layoutManager = LinearLayoutManager(this)
         adapter = PublicacionesAdapter(
             listaPublicaciones,
@@ -178,6 +177,12 @@ class MainActivity : AppCompatActivity() {
 
         btnPublicar.setOnClickListener {
             crearNuevaPublicacion()
+        }
+
+        val btnGoToMessaging = findViewById<ImageButton>(R.id.btnGoToMessaging)
+        btnGoToMessaging.setOnClickListener {
+            val intent = Intent(this, MessagingActivity::class.java)
+            startActivity(intent)
         }
 
         cargarPublicaciones()

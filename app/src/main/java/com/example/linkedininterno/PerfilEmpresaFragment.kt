@@ -30,6 +30,7 @@ class PerfilEmpresaFragment : Fragment() {
     private lateinit var ivAvatarEmpresa: ImageView
     private lateinit var btnLogoutEmpresa: Button
     private lateinit var btnEditProfileEmpresa: Button
+    private lateinit var btnSendMessageEmpresa: Button // Nuevo botón
 
     private var idUsuarioVisitado: Int = -1
     private var esMiPropioPerfil: Boolean = true
@@ -38,7 +39,6 @@ class PerfilEmpresaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Asegúrate de que el nombre del layout coincida con el nombre de tu archivo XML (ej. fragment_perfil_empresa o fragment_perfil_empresa_activity)
         val view = inflater.inflate(R.layout.activity_company_profile, container, false)
 
         val prefs = requireContext().getSharedPreferences("SesionUsuario", Context.MODE_PRIVATE)
@@ -47,7 +47,6 @@ class PerfilEmpresaFragment : Fragment() {
         idUsuarioVisitado = arguments?.getInt("ID_USUARIO", -1) ?: -1
         esMiPropioPerfil = (idUsuarioVisitado == -1 || idUsuarioVisitado == miIdUsuario)
 
-        // Vincular vistas con los IDs exactos de tu XML
         tvHeaderUsernameEmpresa = view.findViewById(R.id.tvHeaderUsernameEmpresa)
         tvNombreEmpresa = view.findViewById(R.id.tvProfileNameEmpresa)
         tvEmailEmpresa = view.findViewById(R.id.tvProfileEmailEmpresaValue)
@@ -59,11 +58,21 @@ class PerfilEmpresaFragment : Fragment() {
         ivAvatarEmpresa = view.findViewById(R.id.ivAvatarProfileEmpresa)
         btnLogoutEmpresa = view.findViewById(R.id.btnLogoutProfileEmpresa)
         btnEditProfileEmpresa = view.findViewById(R.id.btnEditProfileEmpresa)
+        btnSendMessageEmpresa = view.findViewById(R.id.btnSendMessageEmpresa)
 
-        // Si es un perfil de tercero, ocultamos botones de gestión personal
         if (!esMiPropioPerfil) {
             btnEditProfileEmpresa.visibility = View.GONE
             btnLogoutEmpresa.visibility = View.GONE
+
+            // Mostrar y configurar botón de mensaje
+            btnSendMessageEmpresa.visibility = View.VISIBLE
+            btnSendMessageEmpresa.setOnClickListener {
+                val intent = Intent(requireContext(), ChatActivity::class.java)
+                intent.putExtra("DESTINATARIO_ID", idUsuarioVisitado.toString())
+                startActivity(intent)
+            }
+        } else {
+            btnSendMessageEmpresa.visibility = View.GONE
         }
 
         btnEditProfileEmpresa.setOnClickListener {

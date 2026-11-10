@@ -102,6 +102,19 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- Botón de Enviar Mensaje (Aparece al visitar perfiles de terceros) -->
+                <Button
+                    android:id="@+id/btnSendMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:backgroundTint="#1860A8"
+                    android:text="✉️ Enviar Mensaje"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <!-- Avatar Circle -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardAvatar"

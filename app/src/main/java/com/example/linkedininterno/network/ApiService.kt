@@ -2,12 +2,17 @@ package com.example.linkedininterno.network
 
 import com.example.linkedininterno.Habilidad
 import com.example.linkedininterno.Industria
+import com.example.linkedininterno.PeticionEnviarMensaje
 import com.example.linkedininterno.RespuestaCarreras
 import com.example.linkedininterno.RespuestaPerfil
 import com.example.linkedininterno.Publicacion
+import com.example.linkedininterno.RespuestaConversaciones
+import com.example.linkedininterno.RespuestaEnviarMensaje
 import com.example.linkedininterno.RespuestaHabilidades
 import com.example.linkedininterno.RespuestaIndustrias
+import com.example.linkedininterno.RespuestaMensajes
 import com.example.linkedininterno.RespuestaPublicaciones
+import com.example.linkedininterno.RespuestaUsuariosBuscados
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -175,4 +180,27 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") idUsuario: Int
     ): Call<RespuestaPerfil>
+
+    @GET("conversaciones")
+    fun obtenerConversaciones(
+        @Header("Authorization") token: String
+    ): Call<RespuestaConversaciones>
+
+    @GET("mensajes/{destinatarioId}")
+    fun obtenerMensajes(
+        @Header("Authorization") token: String,
+        @Path("destinatarioId") destinatarioId: String
+    ): Call<RespuestaMensajes>
+
+    @POST("mensajes")
+    fun enviarMensaje(
+        @Header("Authorization") token: String,
+        @Body peticion: PeticionEnviarMensaje
+    ): Call<RespuestaEnviarMensaje>
+
+    @GET("usuarios/buscar")
+    fun buscarUsuarios(
+        @Header("Authorization") token: String,
+        @Query("q") query: String
+    ): Call<RespuestaUsuariosBuscados>
 }

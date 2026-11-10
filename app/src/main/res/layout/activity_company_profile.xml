@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -175,6 +176,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
+                    <!-- Botón Editar Perfil -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEditProfileEmpresa"
                         android:layout_width="match_parent"
@@ -185,6 +187,20 @@
                         app:backgroundTint="@color/azul_institucional"
                         app:cornerRadius="10dp"
                         app:icon="@android:drawable/ic_menu_edit"
+                        app:iconTint="@android:color/white" />
+
+                    <!-- Botón Enviar Mensaje -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSendMessageEmpresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:text="✉️ Enviar Mensaje"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:backgroundTint="@color/azul_institucional"
+                        app:cornerRadius="10dp"
                         app:iconTint="@android:color/white" />
 
                     <TextView

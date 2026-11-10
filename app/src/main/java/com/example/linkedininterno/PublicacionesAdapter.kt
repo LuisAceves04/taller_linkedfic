@@ -46,6 +46,14 @@ class PublicacionesAdapter(
         }
         holder.tvNombreAutor.text = if (nombreAutor.isNotEmpty()) nombreAutor else "Usuario"
 
+        // MOSTRAR FECHA REAL DE LA PUBLICACIÓN (Usando los campos correctos del modelo)
+        val fechaOriginal = publicacion.publishedAt ?: publicacion.createdAt ?: publicacion.updatedAt ?: ""
+        holder.tvTiempoPost.text = if (fechaOriginal.length >= 16) {
+            fechaOriginal.substring(0, 16).replace("T", " ") // Formato limpio "YYYY-MM-DD HH:mm"
+        } else {
+            fechaOriginal.ifEmpty { "Reciente" }
+        }
+
         // Cargar Avatar del Autor
         val BASE_STORAGE_URL = "http://10.0.2.2:8000/storage/"
         if (!usuario?.avatar.isNullOrEmpty()) {

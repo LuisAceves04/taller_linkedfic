@@ -11,17 +11,13 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.linkedininterno.network.RetrofitClient
 import com.google.android.material.card.MaterialCardView
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.FileOutputStream
 
 class PerfilAlumnoFragment : Fragment() {
 
@@ -41,6 +37,7 @@ class PerfilAlumnoFragment : Fragment() {
     private lateinit var btnVerCurriculum: Button
     private lateinit var btnEditProfile: Button
     private lateinit var btnAddSkill: Button
+    private lateinit var btnSendMessage: Button // Nuevo botón
 
     private var tieneCurriculum: Boolean = false
     private var idUsuarioVisitado: Int = -1
@@ -74,11 +71,22 @@ class PerfilAlumnoFragment : Fragment() {
         btnVerCurriculum = view.findViewById(R.id.btnDownloadCv)
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnAddSkill = view.findViewById(R.id.btnAddSkill)
+        btnSendMessage = view.findViewById(R.id.btnSendMessage)
 
         if (!esMiPropioPerfil) {
             btnEditProfile.visibility = View.GONE
             btnAddSkill.visibility = View.GONE
             btnLogoutProfile.visibility = View.GONE
+
+            // Mostrar y configurar botón de mensaje
+            btnSendMessage.visibility = View.VISIBLE
+            btnSendMessage.setOnClickListener {
+                val intent = Intent(requireContext(), ChatActivity::class.java)
+                intent.putExtra("DESTINATARIO_ID", idUsuarioVisitado.toString())
+                startActivity(intent)
+            }
+        } else {
+            btnSendMessage.visibility = View.GONE
         }
 
         ivAvatarPerfil = ImageView(requireContext()).apply {
