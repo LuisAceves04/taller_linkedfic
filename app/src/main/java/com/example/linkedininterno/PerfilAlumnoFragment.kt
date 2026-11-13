@@ -2,6 +2,7 @@ package com.example.linkedininterno
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.linkedininterno.network.RetrofitClient
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +40,8 @@ class PerfilAlumnoFragment : Fragment() {
     private lateinit var btnVerCurriculum: Button
     private lateinit var btnEditProfile: Button
     private lateinit var btnAddSkill: Button
-    private lateinit var btnSendMessage: Button // Nuevo botón
+    private lateinit var btnSendMessage: Button
+    private lateinit var btnMostrarInteres: MaterialButton // Botón de mostrar interés
 
     private var tieneCurriculum: Boolean = false
     private var idUsuarioVisitado: Int = -1
@@ -51,6 +55,8 @@ class PerfilAlumnoFragment : Fragment() {
 
         val prefs = requireContext().getSharedPreferences("SesionUsuario", Context.MODE_PRIVATE)
         val miIdUsuario = prefs.getInt("ID_USUARIO", -1)
+        val miIdRol = prefs.getInt("ID_ROL", 1) // 2 = Empresa, 1 = Alumno
+        val miToken = prefs.getString("TOKEN", "") ?: ""
 
         idUsuarioVisitado = arguments?.getInt("ID_USUARIO", -1) ?: -1
         esMiPropioPerfil = (idUsuarioVisitado == -1 || idUsuarioVisitado == miIdUsuario)
@@ -72,6 +78,7 @@ class PerfilAlumnoFragment : Fragment() {
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnAddSkill = view.findViewById(R.id.btnAddSkill)
         btnSendMessage = view.findViewById(R.id.btnSendMessage)
+        btnMostrarInteres = view.findViewById(R.id.btnMostrarInteres) // Vincular botón
 
         if (!esMiPropioPerfil) {
             btnEditProfile.visibility = View.GONE
@@ -85,10 +92,51 @@ class PerfilAlumnoFragment : Fragment() {
                 intent.putExtra("DESTINATARIO_ID", idUsuarioVisitado.toString())
                 startActivity(intent)
             }
+
+            // Lógica del botón "Mostrar Interés" (Solo visible para empresas viendo alumnos)
+            if (miIdRol == 2 && idUsuarioVisitado != -1) {
+                btnMostrarInteres.visibility = View.VISIBLE
+
+                btnMostrarInteres.setOnClickListener {
+                    btnMostrarInteres.text = "Enviando..."
+                    btnMostrarInteres.isEnabled = false
+
+                    RetrofitClient.instance.mostrarInteres("Bearer $miToken", idUsuarioVisitado).enqueue(object : Callback<JsonObject> {
+                        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(requireContext(), "Interés enviado con éxito", Toast.LENGTH_SHORT).show()
+                                btnMostrarInteres.text = "Interés Enviado"
+                                btnMostrarInteres.setBackgroundColor(Color.parseColor("#2E7D32")) // Verde éxito
+                            } else {
+                                // Capturamos el error exacto que envía Laravel
+                                val codigo = response.code()
+                                val errorBody = response.errorBody()?.string()
+                                android.util.Log.e("INTERES_DEBUG", "Error $codigo: $errorBody")
+
+                                Toast.makeText(requireContext(), "Error $codigo al enviar interés", Toast.LENGTH_SHORT).show()
+                                btnMostrarInteres.text = "Destacar Interes"
+                                btnMostrarInteres.isEnabled = true
+                            }
+                        }
+
+                        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                            android.util.Log.e("INTERES_DEBUG", "Fallo de red: ${t.message}")
+                            Toast.makeText(requireContext(), "Error de red", Toast.LENGTH_SHORT).show()
+                            btnMostrarInteres.text = "Destacar Interes"
+                            btnMostrarInteres.isEnabled = true
+                        }
+                    })
+                }
+            } else {
+                btnMostrarInteres.visibility = View.GONE
+            }
+
         } else {
             btnSendMessage.visibility = View.GONE
+            btnMostrarInteres.visibility = View.GONE
         }
 
+        // Configuración del avatar
         ivAvatarPerfil = ImageView(requireContext()).apply {
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,

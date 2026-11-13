@@ -77,6 +77,10 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(this@LoginActivity, "No se recibió el token", Toast.LENGTH_SHORT).show()
                         }
                     } else {
+                        // Leer el error exacto que manda Laravel
+                        val errorReal = response.errorBody()?.string()
+                        Log.e("LOGIN_LARAVEL", "Error ${response.code()}: $errorReal")
+
                         Toast.makeText(this@LoginActivity, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show()
                     }
                 }

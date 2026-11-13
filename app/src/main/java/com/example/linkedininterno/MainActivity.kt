@@ -41,8 +41,8 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var rvPublicaciones: RecyclerView
-    private lateinit var adapter: PublicacionesAdapter
-    private val listaPublicaciones = mutableListOf<Publicacion>()
+    private lateinit var adapter: FeedAdapter
+    private val listaFeed = mutableListOf<FeedItem>()
 
     private lateinit var etTituloPost: TextInputEditText
     private lateinit var etContenidoPost: TextInputEditText
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ivPreviewImagen: ImageView
     private lateinit var vvPreviewVideo: VideoView
     private lateinit var btnPublicar: Button
+    private lateinit var btnCrearVacante: Button
 
     private lateinit var tvFechaProgramada: TextView
     private lateinit var btnLimpiarFecha: ImageButton
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Selector para Edición
+    // Selector para Edición de Publicaciones
     private val selectorEdicionLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             nuevaMediaUri = uri
@@ -138,16 +139,54 @@ class MainActivity : AppCompatActivity() {
         ivPreviewImagen = findViewById(R.id.ivPreviewImagen)
         vvPreviewVideo = findViewById(R.id.vvPreviewVideo)
         btnPublicar = findViewById(R.id.btnPublicar)
+        btnCrearVacante = findViewById(R.id.btnCrearVacante)
         rvPublicaciones = findViewById(R.id.rvPublicaciones)
         tvFechaProgramada = findViewById(R.id.tvFechaProgramada)
         btnLimpiarFecha = findViewById(R.id.btnLimpiarFecha)
 
+        val prefs = getSharedPreferences("SesionUsuario", MODE_PRIVATE)
+        val idRol = prefs.getInt("ID_ROL", prefs.getInt("idRol", 1))
+
+        if (idRol == 2) {
+            btnCrearVacante.visibility = View.VISIBLE
+        } else {
+            btnCrearVacante.visibility = View.GONE
+        }
+
+        btnCrearVacante.setOnClickListener {
+            val intent = Intent(this, CrearVacanteActivity::class.java)
+            startActivity(intent)
+        }
+
         rvPublicaciones.layoutManager = LinearLayoutManager(this)
-        adapter = PublicacionesAdapter(
-            listaPublicaciones,
-            onEditarClick = { publicacion -> mostrarDialogoEditar(publicacion) },
-            onEliminarClick = { publicacion -> mostrarDialogoEliminar(publicacion.idPublicacion) },
-            onPerfilClick = { idUsuario -> abrirPerfilUsuario(idUsuario) }
+
+        // Inicializamos el FeedAdapter unificado
+        adapter = FeedAdapter(
+            listaFeed = listaFeed,
+            onEditarPublicacion = { item -> mostrarDialogoEditarPublicacion(item) },
+            onEliminarPublicacion = { item -> mostrarDialogoEliminarPublicacion(item.idPublicacion ?: -1) },
+            onEditarVacante = { item ->
+                if (item.idVacante != null) {
+                    val intent = Intent(this, EditarVacanteActivity::class.java).apply {
+                        putExtra("ID_VACANTE", item.idVacante)
+                        putExtra("TITULO", item.puesto ?: item.titulo ?: "")
+                        putExtra("DESCRIPCION", item.contenido ?: item.descripcion ?: "")
+                        putExtra("SUELDO_MIN", item.sueldoMin ?: "")
+                        putExtra("SUELDO_MAX", item.sueldoMax ?: "")
+                        putExtra("MULTIMEDIA", item.multimedia ?: "")
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Error: ID de vacante no encontrado", Toast.LENGTH_SHORT).show()
+                }
+            },
+            onEliminarVacante = { item ->
+                item.idVacante?.let { id ->
+                    mostrarDialogoEliminarVacante(id)
+                } ?: Toast.makeText(this, "Error: ID de vacante no encontrado", Toast.LENGTH_SHORT).show()
+            },
+            onPerfilClick = { idUsuario -> abrirPerfilUsuario(idUsuario) },
+            onVerVacanteClick = { item -> Toast.makeText(this, "Ver detalles vacante: ${item.titulo}", Toast.LENGTH_SHORT).show() }
         )
         rvPublicaciones.adapter = adapter
 
@@ -179,13 +218,24 @@ class MainActivity : AppCompatActivity() {
             crearNuevaPublicacion()
         }
 
+        val btnGoToNotifications = findViewById<ImageButton>(R.id.btnGoToNotifications)
+        btnGoToNotifications.setOnClickListener {
+            startActivity(Intent(this, NotificacionesActivity::class.java))
+        }
+
         val btnGoToMessaging = findViewById<ImageButton>(R.id.btnGoToMessaging)
         btnGoToMessaging.setOnClickListener {
             val intent = Intent(this, MessagingActivity::class.java)
             startActivity(intent)
         }
 
-        cargarPublicaciones()
+        cargarFeedUnificado()
+    }
+
+    // Refrescar el feed automáticamente al regresar de crear o editar una vacante
+    override fun onResume() {
+        super.onResume()
+        cargarFeedUnificado()
     }
 
     private fun abrirPerfilUsuario(idUsuario: Int) {
@@ -248,23 +298,23 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun cargarPublicaciones() {
+    private fun cargarFeedUnificado() {
         val token = obtenerToken()
         if (token.isEmpty()) return
 
-        RetrofitClient.instance.obtenerPublicaciones("Bearer $token").enqueue(object : Callback<RespuestaPublicaciones> {
+        RetrofitClient.instance.obtenerFeedCompleto("Bearer $token").enqueue(object : Callback<RespuestaFeed> {
             @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(call: Call<RespuestaPublicaciones>, response: Response<RespuestaPublicaciones>) {
+            override fun onResponse(call: Call<RespuestaFeed>, response: Response<RespuestaFeed>) {
                 if (response.isSuccessful && response.body() != null) {
                     val respuesta = response.body()!!
-                    val publicacionesObtenidas = respuesta.publicacionesPagina?.data ?: emptyList()
+                    val feedObtenido = respuesta.feed?.data ?: emptyList()
 
                     val ahora = java.util.Date()
                     val formatoIso = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.getDefault())
                     val formatoStandard = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
 
-                    val publicacionesVisibles = publicacionesObtenidas.filter { post ->
-                        val fechaStr = post.publishedAt ?: return@filter true
+                    val feedVisible = feedObtenido.filter { item ->
+                        val fechaStr = item.publishedAt ?: return@filter true
                         try {
                             val fechaPost = if (fechaStr.contains("T")) {
                                 formatoIso.parse(fechaStr.substring(0, 19))
@@ -277,15 +327,15 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
-                    listaPublicaciones.clear()
-                    listaPublicaciones.addAll(publicacionesVisibles)
+                    listaFeed.clear()
+                    listaFeed.addAll(feedVisible)
                     adapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(this@MainActivity, "Error al cargar feed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Error al cargar feed unificado", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<RespuestaPublicaciones>, t: Throwable) {
+            override fun onFailure(call: Call<RespuestaFeed>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Error de red: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
@@ -354,7 +404,7 @@ class MainActivity : AppCompatActivity() {
                     ivPreviewImagen.visibility = View.GONE
                     vvPreviewVideo.stopPlayback()
                     vvPreviewVideo.visibility = View.GONE
-                    cargarPublicaciones()
+                    cargarFeedUnificado()
                 } else {
                     Toast.makeText(this@MainActivity, "Error al publicar", Toast.LENGTH_SHORT).show()
                 }
@@ -366,7 +416,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun mostrarDialogoEditar(publicacion: Publicacion) {
+    private fun mostrarDialogoEditarPublicacion(itemFeed: FeedItem) {
         val dialogView = layoutInflater.inflate(R.layout.activity_editar_publicacion, null)
 
         val etTitulo = dialogView.findViewById<TextInputEditText>(R.id.etEditarTitulo)
@@ -377,15 +427,15 @@ class MainActivity : AppCompatActivity() {
         val btnCancelar = dialogView.findViewById<Button>(R.id.btnCancelarEdicion)
         val btnGuardar = dialogView.findViewById<Button>(R.id.btnGuardarEdicion)
 
-        etTitulo.setText(publicacion.titulo)
-        etContenido.setText(publicacion.contenido)
+        etTitulo.setText(itemFeed.titulo)
+        etContenido.setText(itemFeed.contenido)
 
         nuevaMediaUri = null
         esNuevoVideoEdicion = false
         ivEditarPreviewRef = ivPreview
         vvEditarPreviewRef = vvPreview
 
-        val pathMultimedia = publicacion.multimedia
+        val pathMultimedia = itemFeed.multimedia
         if (!pathMultimedia.isNullOrEmpty()) {
             val BASE_STORAGE_URL = "http://10.0.2.2:8000/storage/"
             val urlCompleta = if (pathMultimedia.startsWith("http")) pathMultimedia else BASE_STORAGE_URL + pathMultimedia
@@ -438,6 +488,11 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (itemFeed.idPublicacion == null) {
+                Toast.makeText(this, "Error: ID de publicación no encontrado", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val methodBody = "PUT".toRequestBody("text/plain".toMediaTypeOrNull())
             val tituloBody = nuevoTitulo.toRequestBody("text/plain".toMediaTypeOrNull())
             val contenidoBody = nuevoContenido.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -463,7 +518,7 @@ class MainActivity : AppCompatActivity() {
 
             RetrofitClient.instance.editarPublicacion(
                 "Bearer $token",
-                publicacion.idPublicacion,
+                itemFeed.idPublicacion,
                 methodBody,
                 tituloBody,
                 contenidoBody,
@@ -474,7 +529,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, "Actualizado correctamente", Toast.LENGTH_SHORT).show()
                         vvPreview.stopPlayback()
                         dialog.dismiss()
-                        cargarPublicaciones()
+                        cargarFeedUnificado()
                     } else {
                         Toast.makeText(this@MainActivity, "Error al actualizar", Toast.LENGTH_SHORT).show()
                     }
@@ -489,7 +544,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun mostrarDialogoEliminar(idPublicacion: Int) {
+    private fun mostrarDialogoEliminarPublicacion(idPublicacion: Int) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Eliminar publicación")
         builder.setMessage("¿Estás seguro de que quieres borrar esta publicación? Esta acción no se puede deshacer.")
@@ -513,7 +568,45 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@MainActivity, "Publicación eliminada", Toast.LENGTH_SHORT).show()
-                    cargarPublicaciones()
+                    cargarFeedUnificado()
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error de red", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // --- MÉTODOS PARA ELIMINAR VACANTE ---
+
+    private fun mostrarDialogoEliminarVacante(idVacante: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Eliminar vacante")
+        builder.setMessage("¿Estás seguro de que quieres borrar esta oferta de trabajo? Esta acción no se puede deshacer.")
+
+        builder.setPositiveButton("Eliminar") { dialog, _ ->
+            eliminarVacanteServer(idVacante)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun eliminarVacanteServer(idVacante: Int) {
+        val token = obtenerToken()
+        RetrofitClient.instance.eliminarVacante("Bearer $token", idVacante).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@MainActivity, "Vacante eliminada", Toast.LENGTH_SHORT).show()
+                    cargarFeedUnificado()
+                } else {
+                    Toast.makeText(this@MainActivity, "Error al eliminar vacante", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -54,6 +54,15 @@
             android:exported="false" />
         <activity android:name=".MessagingActivity" />
         <activity android:name=".ChatActivity" />
+        <activity android:name=".CrearVacanteActivity"
+                  android:exported="false" />
+        <activity
+            android:name=".EditarVacanteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NotificacionesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
 

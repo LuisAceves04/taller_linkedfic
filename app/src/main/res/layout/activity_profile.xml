@@ -115,6 +115,23 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- Botón de Mostrar Interés (Solo para empresas visitando alumnos) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMostrarInteres"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Destacar Interes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#D19000"
+                    android:visibility="gone"
+                    app:cornerRadius="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnSendMessage" />
+
                 <!-- Avatar Circle -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardAvatar"
@@ -126,7 +143,7 @@
                     app:cardElevation="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnEditProfile">
+                    app:layout_constraintTop_toBottomOf="@id/btnMostrarInteres">
 
                     <TextView
                         android:id="@+id/tvAvatarInitial"
@@ -139,7 +156,6 @@
                         android:textStyle="bold"
                         tools:text="U" />
 
-                    <!-- Agregamos este ImageView para mostrar la foto de perfil con Glide -->
                     <ImageView
                         android:id="@+id/ivAvatarProfile"
                         android:layout_width="match_parent"
