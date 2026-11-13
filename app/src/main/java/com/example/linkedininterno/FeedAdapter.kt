@@ -191,7 +191,6 @@ class FeedAdapter(
             val nombreEmpresa =
                 empresa?.nombreEmpresa ?: "Empresa confidencial"
 
-            // OBTENER MODALIDAD DINÁMICAMENTE PARA MOSTRARLA JUNTO A LA EMPRESA
             val nombreModalidad = item.modalidadObj?.nombre
                 ?: item.modalidadTexto
                 ?: ""

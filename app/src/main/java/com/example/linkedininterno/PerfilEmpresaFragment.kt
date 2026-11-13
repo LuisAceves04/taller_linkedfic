@@ -30,7 +30,7 @@ class PerfilEmpresaFragment : Fragment() {
     private lateinit var ivAvatarEmpresa: ImageView
     private lateinit var btnLogoutEmpresa: Button
     private lateinit var btnEditProfileEmpresa: Button
-    private lateinit var btnSendMessageEmpresa: Button // Nuevo botón
+    private lateinit var btnSendMessageEmpresa: Button
 
     private var idUsuarioVisitado: Int = -1
     private var esMiPropioPerfil: Boolean = true

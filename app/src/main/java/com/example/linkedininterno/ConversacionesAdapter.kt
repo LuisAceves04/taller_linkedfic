@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class ConversacionesAdapter(
     private var conversaciones: List<Conversacion>,
-    private val token: String, // Recibimos el token para consultar la API
+    private val token: String,
     private val onChatClick: (Conversacion) -> Unit
 ) : RecyclerView.Adapter<ConversacionesAdapter.ConversacionViewHolder>() {
 
@@ -37,7 +37,6 @@ class ConversacionesAdapter(
         val conversacion = conversaciones[position]
         val idInterlocutor = conversacion.interlocutorId
 
-        // 1. Ponemos datos por defecto mientras la API responde
         holder.tvConversationName.text = "Cargando..."
         holder.tvConversationPreview.text = conversacion.ultimoMensaje ?: "Sin mensaje"
         holder.tvConversationTime.text = conversacion.fecha?.takeIf { it.length >= 16 }?.substring(11, 16) ?: ""
@@ -45,7 +44,6 @@ class ConversacionesAdapter(
         holder.ivAvatarChat.visibility = View.GONE
         holder.tvAvatarInitials.text = "..."
 
-        // 2. Hacemos la misma llamada que en ChatActivity para obtener nombre y foto
         RetrofitClient.instance.obtenerPerfilPorId("Bearer $token", idInterlocutor.toInt()).enqueue(object : Callback<RespuestaPerfil> {
             override fun onResponse(call: Call<RespuestaPerfil>, response: Response<RespuestaPerfil>) {
                 if (response.isSuccessful && response.body() != null) {

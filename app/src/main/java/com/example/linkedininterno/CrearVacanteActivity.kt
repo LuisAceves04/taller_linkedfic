@@ -29,7 +29,7 @@ class CrearVacanteActivity : AppCompatActivity() {
 
     private lateinit var etTitulo: TextInputEditText
     private lateinit var etDescripcion: TextInputEditText
-    private lateinit var actvModalidad: AutoCompleteTextView // <--- Cambiado a AutoCompleteTextView
+    private lateinit var actvModalidad: AutoCompleteTextView
     private lateinit var etSalarioMin: TextInputEditText
     private lateinit var etSalarioMax: TextInputEditText
     private lateinit var btnGuardar: Button
@@ -82,7 +82,7 @@ class CrearVacanteActivity : AppCompatActivity() {
 
         etTitulo = findViewById(R.id.etTituloVacante)
         etDescripcion = findViewById(R.id.etDescripcionVacante)
-        actvModalidad = findViewById(R.id.actvModalidadVacante) // <--- Vinculado
+        actvModalidad = findViewById(R.id.actvModalidadVacante)
         etSalarioMin = findViewById(R.id.etSalarioMinVacante)
         etSalarioMax = findViewById(R.id.etSalarioMaxVacante)
         btnGuardar = findViewById(R.id.btnGuardarVacante)
@@ -104,7 +104,6 @@ class CrearVacanteActivity : AppCompatActivity() {
             enviarVacanteAServidor()
         }
 
-        // Cargamos el listado de modalidades en cuanto se abre la pantalla
         cargarModalidades()
     }
 
@@ -115,7 +114,6 @@ class CrearVacanteActivity : AppCompatActivity() {
                     listaModalidades.clear()
                     val element = response.body()!!
 
-                    // Extracción inteligente de la lista (directa o dentro de un wrapper)
                     val jsonArray = when {
                         element.isJsonArray -> element.asJsonArray
                         element.isJsonObject && element.asJsonObject.has("data") -> element.asJsonObject.getAsJsonArray("data")
@@ -139,11 +137,9 @@ class CrearVacanteActivity : AppCompatActivity() {
                         listaModalidades.add(Modalidad(id, nombre))
                     }
 
-                    // Pasar la lista al menú desplegable
                     val adapter = ArrayAdapter(this@CrearVacanteActivity, android.R.layout.simple_dropdown_item_1line, listaModalidades)
                     actvModalidad.setAdapter(adapter)
 
-                    // Escuchar la opción que seleccione el usuario
                     actvModalidad.setOnItemClickListener { parent, _, position, _ ->
                         modalidadSeleccionada = parent.getItemAtPosition(position) as Modalidad
                     }
@@ -162,7 +158,6 @@ class CrearVacanteActivity : AppCompatActivity() {
         val titulo = etTitulo.text.toString().trim()
         val descripcion = etDescripcion.text.toString().trim()
 
-        // Ahora el ID se saca del objeto que seleccionó el usuario
         val idModalidad = modalidadSeleccionada?.id
 
         val salarioMinTexto = etSalarioMin.text.toString().replace(",", "").replace(Regex("[^0-9.]"), "").trim()

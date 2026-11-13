@@ -139,7 +139,6 @@ class EditarVacanteActivity : AppCompatActivity() {
                     listaModalidades.clear()
                     val element = response.body()!!
 
-                    // Manejo más robusto de la respuesta JSON
                     val jsonArray = when {
                         element.isJsonArray -> element.asJsonArray
                         element.isJsonObject && element.asJsonObject.has("data") -> element.asJsonObject.getAsJsonArray("data")
@@ -151,13 +150,11 @@ class EditarVacanteActivity : AppCompatActivity() {
                         jsonArray.forEach {
                             if (it.isJsonObject) {
                                 val obj = it.asJsonObject
-                                // Extrae el ID basado en nombres de campos comunes
                                 val id = when {
                                     obj.has("idModalidad") -> obj.get("idModalidad").asInt
                                     obj.has("id") -> obj.get("id").asInt
                                     else -> 0
                                 }
-                                // Extrae el nombre basado en nombres de campos comunes
                                 val nombre = when {
                                     obj.has("nombre") -> obj.get("nombre").asString
                                     obj.has("modalidad") -> obj.get("modalidad").asString
@@ -170,7 +167,6 @@ class EditarVacanteActivity : AppCompatActivity() {
                             }
                         }
 
-                        // Actualiza el adaptador en el hilo principal
                         runOnUiThread {
                             val adapter = ArrayAdapter(this@EditarVacanteActivity, android.R.layout.simple_dropdown_item_1line, listaModalidades)
                             actvModalidad.setAdapter(adapter)

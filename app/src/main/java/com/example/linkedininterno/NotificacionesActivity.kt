@@ -72,12 +72,10 @@ class NotificacionesActivity : AppCompatActivity() {
                                     val notif = gson.fromJson(jsonElement, Notificacion::class.java)
                                     if (notif != null) listaNotificaciones.add(notif)
                                 } catch (e: Exception) {
-                                    // Si un elemento individual falla al parsear, lo ignoramos para que no tire la app
                                 }
                             }
                         }
 
-                        // Asignamos el adaptador con seguridad
                         val adapter = NotificacionesAdapter(listaNotificaciones)
                         rvNotificaciones.adapter = adapter
 

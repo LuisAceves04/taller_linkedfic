@@ -41,7 +41,7 @@ class PerfilAlumnoFragment : Fragment() {
     private lateinit var btnEditProfile: Button
     private lateinit var btnAddSkill: Button
     private lateinit var btnSendMessage: Button
-    private lateinit var btnMostrarInteres: MaterialButton // Botón de mostrar interés
+    private lateinit var btnMostrarInteres: MaterialButton
 
     private var tieneCurriculum: Boolean = false
     private var idUsuarioVisitado: Int = -1
@@ -78,7 +78,7 @@ class PerfilAlumnoFragment : Fragment() {
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnAddSkill = view.findViewById(R.id.btnAddSkill)
         btnSendMessage = view.findViewById(R.id.btnSendMessage)
-        btnMostrarInteres = view.findViewById(R.id.btnMostrarInteres) // Vincular botón
+        btnMostrarInteres = view.findViewById(R.id.btnMostrarInteres)
 
         if (!esMiPropioPerfil) {
             btnEditProfile.visibility = View.GONE
@@ -106,9 +106,8 @@ class PerfilAlumnoFragment : Fragment() {
                             if (response.isSuccessful) {
                                 Toast.makeText(requireContext(), "Interés enviado con éxito", Toast.LENGTH_SHORT).show()
                                 btnMostrarInteres.text = "Interés Enviado"
-                                btnMostrarInteres.setBackgroundColor(Color.parseColor("#2E7D32")) // Verde éxito
+                                btnMostrarInteres.setBackgroundColor(Color.parseColor("#2E7D32"))
                             } else {
-                                // Capturamos el error exacto que envía Laravel
                                 val codigo = response.code()
                                 val errorBody = response.errorBody()?.string()
                                 android.util.Log.e("INTERES_DEBUG", "Error $codigo: $errorBody")

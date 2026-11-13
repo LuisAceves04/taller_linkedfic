@@ -57,14 +57,13 @@ class ChatActivity : AppCompatActivity() {
         tvChatAvatarInitials = findViewById(R.id.tvChatAvatarInitials)
         ivChatAvatarHeader = findViewById(R.id.ivChatAvatarHeader)
 
-        // Configuración inicial provisional antes de recibir respuesta de la red
         val nombreTemp = "Usuario $destinatarioId"
         tvChatDestinatarioNombre.text = nombreTemp
         tvChatAvatarInitials.text = nombreTemp.first().toString().uppercase()
 
         // Configurar RecyclerView
         val layoutManager = LinearLayoutManager(this)
-        layoutManager.stackFromEnd = true // Empieza desde abajo (estilo chat)
+        layoutManager.stackFromEnd = true
         rvMensajes.layoutManager = layoutManager
 
         mensajesAdapter = MensajesAdapter(listaMensajes, miIdUsuario)
@@ -81,7 +80,6 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        // Cargar perfil del interlocutor y mensajes
         cargarInformacionInterlocutor(token)
         cargarMensajes(token)
     }
@@ -121,7 +119,6 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<RespuestaPerfil>, t: Throwable) {
-                // Silencioso, conserva los valores por defecto si falla la red
             }
         })
     }
