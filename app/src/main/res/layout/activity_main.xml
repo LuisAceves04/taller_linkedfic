@@ -150,7 +150,7 @@
                         android:contentDescription="Limpiar fecha" />
                 </LinearLayout>
 
-                <!-- Fila de Botones compacta -->
+                <!-- Fila de Botones -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,6 +185,18 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
+                    <!-- NUEVO BOTÓN: Crear Vacante (Oculto por defecto) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCrearVacante"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nueva Vacante"
+                        android:textColor="#0A66C2"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:layout_marginEnd="8dp"/>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnPublicar"
                         android:layout_width="wrap_content"
@@ -208,7 +220,7 @@
         android:paddingBottom="76dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <!-- BARRA NAVEGACIÓN INFERIOR (BOTONES DE PERFIL Y CERRAR SESIÓN) -->
+    <!-- BARRA NAVEGACIÓN INFERIOR (BOTONES DE PERFIL, MENSAJES, NOTIFICACIONES Y CERRAR SESIÓN) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -272,6 +284,36 @@
                     android:scaleType="centerInside"
                     android:src="@android:drawable/ic_dialog_email"
                     app:tint="@color/white"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- NUEVO: Botón para Notificaciones -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                app:cardCornerRadius="21dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E1E8ED"
+                app:strokeWidth="1dp"
+                android:backgroundTint="#F0F4F8">
+
+                <ImageButton
+                    android:id="@+id/btnGoToNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Notificaciones"
+                    android:padding="9dp"
+                    android:scaleType="centerInside"
+                    android:src="@android:drawable/ic_popup_reminder"
+                    app:tint="#0A66C2"
                     tools:ignore="TouchTargetSizeCheck" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

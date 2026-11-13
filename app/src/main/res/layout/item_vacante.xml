@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Logo Empresa -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivLogoEmpresaVacante"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+        <!-- Título de la Vacante -->
+        <TextView
+            android:id="@+id/tvTituloVacante"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="#0A66C2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnOpcionesVacante"
+            app:layout_constraintStart_toEndOf="@id/ivLogoEmpresaVacante"
+            app:layout_constraintTop_toTopOf="@id/ivLogoEmpresaVacante"
+            android:text="Desarrollador Android" />
+
+        <!-- Nombre de Empresa -->
+        <TextView
+            android:id="@+id/tvEmpresaUbicacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#536471"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvTituloVacante"
+            app:layout_constraintTop_toBottomOf="@id/tvTituloVacante"
+            android:text="Google · Remoto" />
+
+        <!-- Tiempo de publicación -->
+        <TextView
+            android:id="@+id/tvTiempoVacante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tvTituloVacante"
+            app:layout_constraintTop_toBottomOf="@id/tvEmpresaUbicacion"
+            android:text="Hace 2 días" />
+
+        <!-- Botón de opciones (Editar/Eliminar) -->
+        <ImageButton
+            android:id="@+id/btnOpcionesVacante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#536471" />
+
+        <!-- Etiqueta de Salario -->
+        <TextView
+            android:id="@+id/tvSalarioVacante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#E8F5E9"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="$20,000 - $30,000 MXN"
+            android:textColor="#2E7D32"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogoEmpresaVacante" />
+
+        <!-- Descripción corta -->
+        <TextView
+            android:id="@+id/tvDescripcionVacante"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="#3F4852"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/tvSalarioVacante"
+            android:text="Buscamos a un desarrollador Android con experiencia en Kotlin..." />
+
+        <!-- IMAGEN MULTIMEDIA DE LA VACANTE -->
+        <ImageView
+            android:id="@+id/ivImagenVacante"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvDescripcionVacante" />
+
+        <!-- VIDEO MULTIMEDIA DE LA VACANTE -->
+        <VideoView
+            android:id="@+id/vvVideoVacante"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ivImagenVacante" />
+
+        <!-- Botón Ver Detalles -->
+        <Button
+            android:id="@+id/btnVerVacante"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/azul_institucional"
+            android:text="Ver Detalles / Aplicar"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/vvVideoVacante" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
