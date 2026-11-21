@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F2EF"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editEmploymentOfferHeader"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/azul_oscuro"
+            android:paddingStart="16dp"
+            android:paddingEnd="20dp">
+
+            <ImageView
+                android:id="@+id/ivEditEmploymentOfferLogo"
+                android:layout_width="84dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/logofic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvEditEmploymentOfferHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar oferta de empleo"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvEditEmploymentOfferIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="18dp"
+            android:text="Mantén tu vacante al día"
+            android:textColor="@color/azul_oscuro"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="18dp"
+            android:text="Actualiza los requisitos, salario, modalidad o descripción del puesto."
+            android:textColor="#65717D"
+            android:textSize="14sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardEditEmploymentOfferForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:id="@+id/tvTituloEditarVacante"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Detalles de la oportunidad"
+                    android:textColor="@color/azul_oscuro"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEditarTituloVacante"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Título del puesto"
+                    app:boxStrokeColor="@color/azul_institucional">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditarTituloVacante"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:maxLines="2"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEditarDescripcionVacante"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Descripción, responsabilidades y requisitos"
+                    app:boxStrokeColor="@color/azul_institucional">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEditarDescripcionVacante"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|start"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:minLines="4"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEditarModalidadVacante"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Modalidad de trabajo"
+                    android:labelFor="@id/actvEditarModalidadVacante"
+                    app:boxStrokeColor="@color/azul_institucional">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actvEditarModalidadVacante"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tvEditSalaryRangeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Rango salarial (opcional)"
+                    android:textColor="@color/azul_oscuro"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llEditarSueldos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEditarSalarioMin"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:hint="Mínimo"
+                        app:boxStrokeColor="@color/azul_institucional">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEditarSalarioMinVacante"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEditarSalarioMax"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:hint="Máximo"
+                        app:boxStrokeColor="@color/azul_institucional">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEditarSalarioMaxVacante"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvEditEmploymentMediaLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Material complementario (opcional)"
+                    android:textColor="@color/azul_oscuro"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivEditarPreviewImagenVacante"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="Vista previa de imagen de la vacante"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <VideoView
+                    android:id="@+id/vvEditarPreviewVideoVacante"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/llEditarBotonesMultimedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditarSeleccionarImagenVacante"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="Cambiar foto"
+                        android:textColor="#536471"
+                        app:icon="@android:drawable/ic_menu_gallery"
+                        app:iconTint="@color/azul_institucional" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditarSeleccionarVideoVacante"
+                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="Cambiar video"
+                        android:textColor="#536471"
+                        app:icon="@android:drawable/ic_media_play"
+                        app:iconTint="@color/dorado_oro_uas" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelarEditarVacante"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:text="Cancelar"
+                        android:textColor="#65717D"
+                        app:cornerRadius="12dp"
+                        app:strokeColor="#D6DCE2" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGuardarEditarVacante"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:text="Guardar cambios"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/azul_institucional"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_menu_save"
+                        app:iconTint="@android:color/white" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

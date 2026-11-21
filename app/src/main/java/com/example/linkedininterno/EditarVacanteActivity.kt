@@ -74,7 +74,7 @@ class EditarVacanteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_editar_vacante)
+        setContentView(R.layout.activity_edit_employment_offer)
 
         etTitulo = findViewById(R.id.etEditarTituloVacante)
         etDescripcion = findViewById(R.id.etEditarDescripcionVacante)
