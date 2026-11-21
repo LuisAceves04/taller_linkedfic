@@ -1,13 +1,16 @@
 package com.example.linkedininterno.network
 
-import com.example.linkedininterno.Habilidad
-import com.example.linkedininterno.Industria
+import com.example.linkedininterno.PeticionEnviarMensaje
 import com.example.linkedininterno.RespuestaCarreras
 import com.example.linkedininterno.RespuestaPerfil
-import com.example.linkedininterno.Publicacion
+import com.example.linkedininterno.RespuestaConversaciones
+import com.example.linkedininterno.RespuestaEnviarMensaje
+import com.example.linkedininterno.RespuestaFeed
 import com.example.linkedininterno.RespuestaHabilidades
 import com.example.linkedininterno.RespuestaIndustrias
+import com.example.linkedininterno.RespuestaMensajes
 import com.example.linkedininterno.RespuestaPublicaciones
+import com.example.linkedininterno.RespuestaUsuariosBuscados
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -19,9 +22,9 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -33,6 +36,7 @@ data class EditPublicacionRequest(
 
 interface ApiService {
 
+    @Headers("Accept: application/json")
     @POST("login")
     fun login(
         @Body request: JsonObject
@@ -175,4 +179,77 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") idUsuario: Int
     ): Call<RespuestaPerfil>
+
+    @GET("conversaciones")
+    fun obtenerConversaciones(
+        @Header("Authorization") token: String
+    ): Call<RespuestaConversaciones>
+
+    @GET("mensajes/{destinatarioId}")
+    fun obtenerMensajes(
+        @Header("Authorization") token: String,
+        @Path("destinatarioId") destinatarioId: String
+    ): Call<RespuestaMensajes>
+
+    @POST("mensajes")
+    fun enviarMensaje(
+        @Header("Authorization") token: String,
+        @Body peticion: PeticionEnviarMensaje
+    ): Call<RespuestaEnviarMensaje>
+
+    @GET("usuarios/buscar")
+    fun buscarUsuarios(
+        @Header("Authorization") token: String,
+        @Query("q") query: String
+    ): Call<RespuestaUsuariosBuscados>
+
+    @GET("feed")
+    fun obtenerFeedCompleto(@Header("Authorization") token: String
+    ): Call<RespuestaFeed>
+
+    @Multipart
+    @POST("vacantes")
+    fun crearVacanteConMultimedia(
+        @Header("Authorization") token: String,
+        @Part("puesto") puesto: okhttp3.RequestBody,
+        @Part("contenido") contenido: okhttp3.RequestBody,
+        @Part("idModalidad") idModalidad: okhttp3.RequestBody,
+        @Part("sueldo_min") sueldoMin: okhttp3.RequestBody?,
+        @Part("sueldo_max") sueldoMax: okhttp3.RequestBody?,
+        @Part multimedia: okhttp3.MultipartBody.Part?
+    ): Call<com.google.gson.JsonObject>
+
+    @GET("modalidades")
+    fun obtenerModalidades(): retrofit2.Call<com.google.gson.JsonElement>
+
+    @DELETE("vacantes/{id}")
+    fun eliminarVacante(
+        @Header("Authorization") token: String,
+        @Path("id") idVacante: Int
+    ): Call<com.google.gson.JsonObject>
+
+    @Multipart
+    @POST("vacantes/{id}")
+    fun editarVacante(
+        @Header("Authorization") token: String,
+        @Path("id") idVacante: Int,
+        @Part("_method") method: okhttp3.RequestBody,
+        @Part("puesto") puesto: okhttp3.RequestBody,
+        @Part("contenido") contenido: okhttp3.RequestBody,
+        @Part("idModalidad") idModalidad: okhttp3.RequestBody,
+        @Part("sueldo_min") sueldoMin: okhttp3.RequestBody?,
+        @Part("sueldo_max") sueldoMax: okhttp3.RequestBody?,
+        @Part multimedia: okhttp3.MultipartBody.Part?
+    ): retrofit2.Call<com.google.gson.JsonObject>
+
+    @POST("alumnos/{id}/interes")
+    fun mostrarInteres(
+        @Header("Authorization") token: String,
+        @Path("id") idAlumno: Int
+    ): retrofit2.Call<com.google.gson.JsonObject>
+
+    @GET("notificaciones")
+    fun obtenerNotificaciones(
+        @Header("Authorization") token: String
+    ): Call<com.google.gson.JsonElement>
 }

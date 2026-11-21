@@ -34,3 +34,8 @@ data class RespuestaHabilidades(
     @SerializedName(value = "data") val data: List<Habilidad>?,
     @SerializedName(value = "habilidades") val habilidades: List<Habilidad>?
 )
+
+data class RespuestaUsuariosBuscados(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("usuarios") val usuarios: List<Usuario>?
+)
