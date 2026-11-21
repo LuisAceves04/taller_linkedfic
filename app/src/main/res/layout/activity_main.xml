@@ -35,8 +35,79 @@
                 android:contentDescription="Logo LinkedFIC" />
         </LinearLayout>
 
-        <!-- SECCIÓN PARA CREAR PUBLICACIÓN -->
+        <!-- Panel exclusivo para cuentas empresariales -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/layoutCompanyActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="#E4EAF0"
+            app:strokeWidth="1dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCompanyActionsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Herramientas para empresas"
+                    android:visibility="gone"
+                    android:textColor="@color/azul_oscuro"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Comparte novedades institucionales o publica una vacante."
+                    android:visibility="gone"
+                    android:textColor="#65717D"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCrearPublicacionEmpresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:text="Crear publicación corporativa"
+                    android:visibility="gone"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/azul_institucional"
+                    app:cornerRadius="12dp"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconTint="@android:color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCrearVacante"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Crear vacante"
+                    android:textColor="@color/azul_institucional"
+                    android:visibility="gone"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/azul_institucional" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Formulario de publicación general -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPostComposer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="14dp"
@@ -184,18 +255,6 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
-
-                    <!-- NUEVO BOTÓN: Crear Vacante (Oculto por defecto) -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnCrearVacante"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nueva Vacante"
-                        android:textColor="#0A66C2"
-                        android:textSize="12sp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="8dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnPublicar"
@@ -347,5 +406,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Vista corporativa incluida y controlada por la Activity según el tipo de cuenta. -->
+    <include
+        android:id="@+id/companyPublicationScreen"
+        layout="@layout/activity_company_publication"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
